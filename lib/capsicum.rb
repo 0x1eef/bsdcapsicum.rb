@@ -1,19 +1,35 @@
 require "capsicum/version"
-require 'ffi'
+require "fiddle"
 
 module Capsicum
-  class IntPtr < FFI::Struct
-    layout :value, :int
-  end
-
+  # @api private
   module LibC
-    extend FFI::Library
-    ffi_lib [FFI::CURRENT_PROCESS, 'c']
+    module_function
 
-    attach_variable :errno, :int
+    # Provides a Ruby interface for cap_enter(2)
+    # @return [Integer]
+    def cap_enter
+      Fiddle::Function.new(
+        libc["cap_enter"],
+        [],
+        Fiddle::Types::INT
+      ).call
+    end
 
-    attach_function :cap_enter, [], :int
-    attach_function :cap_getmode, [IntPtr], :int
+    # Provides a Ruby interface for cap_getmode(2)
+    # @param [Fiddle::Pointer] uintp
+    # @return [Integer]
+    def cap_getmode(uintp)
+      Fiddle::Function.new(
+        libc["cap_getmode"],
+        [Fiddle::Types::INTPTR_T],
+        Fiddle::Types::INT
+      ).call(uintp)
+    end
+
+    def libc
+      @libc ||= Fiddle.dlopen Dir["/lib/libc.*"].first
+    end
   end
 
   # Check if we're in capability mode.
@@ -23,14 +39,16 @@ module Capsicum
   # @return [Boolean] true if we've entered capability mode
   # @raise [Errno::ENOTCAPABLE] - Capsicum not enabled.
   def sandboxed?
-    ptr = IntPtr.new
-    ret = LibC.cap_getmode(ptr)
+    uintp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_UINT)
+    ret = LibC.cap_getmode(uintp)
 
     if ret == 0
-      ptr[:value] == 1
+      uintp[0, Fiddle::SIZEOF_UINT].unpack('i') == [1]
     else
-      raise SystemCallError.new("cap_getmode", LibC.errno)
+      raise SystemCallError.new("cap_getmode", Fiddle.last_error)
     end
+  ensure
+    uintp.call_free
   end
 
   # Enter capability sandbox mode.
@@ -45,7 +63,7 @@ module Capsicum
     if ret == 0
       return true
     else
-      raise SystemCallError.new("cap_enter", LibC.errno)
+      raise SystemCallError.new("cap_enter", Fiddle.last_error)
     end
   end
 
