@@ -39,7 +39,7 @@ class CapsicumTest < Minitest::Test
       File.new("/dev/null")
     end
 
-    assert_raises(Errno::ECAPMODE) do
+    assert_raises(Errno::ENOENT) do
       puts `ls`
     end
   end
