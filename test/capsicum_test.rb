@@ -1,4 +1,6 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 class CapsicumTest < Minitest::Test
   # This is going to get awkward...
@@ -9,19 +11,17 @@ class CapsicumTest < Minitest::Test
   end
 
   def test_1_within_sandbox
-    skip if RUBY_ENGINE == 'jruby' # fork not supported
+    skip if RUBY_ENGINE == "jruby" # fork not supported
 
     refute Capsicum.sandboxed?
 
     result = Capsicum.within_sandbox do
-      begin
-        Capsicum.sandboxed? == true || Process.exit!(1)
-        File.new("/dev/null")
-      rescue Errno::ECAPMODE
-        Process.exit!(0)
-      else
-        Process.exit!(2)
-      end
+      Capsicum.sandboxed? == true || Process.exit!(1)
+      File.new("/dev/null")
+    rescue Errno::ECAPMODE
+      Process.exit!(0)
+    else
+      Process.exit!(2)
     end
 
     assert result.exitstatus.zero?

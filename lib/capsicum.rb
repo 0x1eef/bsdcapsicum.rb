@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "capsicum/version"
 require "fiddle"
 
@@ -43,7 +45,7 @@ module Capsicum
     ret = LibC.cap_getmode(uintp)
 
     if ret == 0
-      uintp[0, Fiddle::SIZEOF_UINT].unpack('i') == [1]
+      uintp[0, Fiddle::SIZEOF_UINT].unpack("i") == [1]
     else
       raise SystemCallError.new("cap_getmode", Fiddle.last_error)
     end
@@ -61,7 +63,7 @@ module Capsicum
     ret = LibC.cap_enter
 
     if ret == 0
-      return true
+      true
     else
       raise SystemCallError.new("cap_enter", Fiddle.last_error)
     end
