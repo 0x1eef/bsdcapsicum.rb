@@ -3,7 +3,7 @@
 module Capsicum
   require_relative "capsicum/version"
   require_relative "capsicum/libc"
-  module_function
+  extend self
 
   ##
   # Check if we're in capability mode.
@@ -25,6 +25,7 @@ module Capsicum
   ensure
     uintp.call_free
   end
+  alias_method :capability_mode?, :in_capability_mode?
 
   ##
   # Enter capability mode
