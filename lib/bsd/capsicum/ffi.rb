@@ -1,6 +1,6 @@
 # @api private
 module BSD::Capsicum
-  module LibC
+  module FFI
     require "fiddle"
     module_function
 

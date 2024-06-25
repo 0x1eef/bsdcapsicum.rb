@@ -5,7 +5,7 @@ end unless defined?(BSD)
 
 module BSD::Capsicum
   require_relative "capsicum/version"
-  require_relative "capsicum/libc"
+  require_relative "capsicum/ffi"
   extend self
 
   ##
@@ -18,9 +18,8 @@ module BSD::Capsicum
   #  Returns true when the current process is in capability mode
   def in_capability_mode?
     uintp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_UINT)
-    ret = LibC.cap_getmode(uintp)
-
-    if ret == 0
+    FFI.cap_getmode(uintp)
+    if FFI.cap_getmode(uintp).zero?
       uintp[0, Fiddle::SIZEOF_UINT].unpack("i") == [1]
     else
       raise SystemCallError.new("cap_getmode", Fiddle.last_error)
@@ -39,7 +38,7 @@ module BSD::Capsicum
   # @return [Boolean]
   #  Returns true when successful
   def enter!
-    return true unless LibC.cap_enter == -1
+    return true unless FFI.cap_enter == -1
     raise SystemCallError.new("cap_enter", Fiddle.last_error)
   end
 end
