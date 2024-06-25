@@ -11,7 +11,7 @@ module BSD::Capsicum
   ##
   # Check if we're in capability mode.
   #
-  # @see cap_getmode(2)
+  # @see https://man.freebsd.org/cgi/man.cgi?query=cap_getmode&apropos=0&sektion=2&format=html cap_getmode(2)
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
   # @return [Boolean]
@@ -33,7 +33,7 @@ module BSD::Capsicum
   ##
   # Enter a process into capability mode
   #
-  # @see cap_enter(2)
+  # @see https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html cap_enter(2)
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
   # @return [Boolean]
