@@ -77,22 +77,4 @@ module Capsicum
       raise SystemCallError.new("cap_enter", Fiddle.last_error)
     end
   end
-
-  # Run the block within a forked process in capability mode and wait for it to
-  # complete.
-  #
-  # @yield block to run within the forked child.
-  # @return [Process::Status] exit status of the forked child.
-  def within_sandbox
-    raise NotImplementedError, "fork() not supported" unless Process.respond_to? :fork
-
-    return enum_for(:within_sandbox) unless block_given?
-
-    pid = fork do
-      Capsicum.enter!
-      yield
-    end
-
-    Process.waitpid2(pid).last
-  end
 end
