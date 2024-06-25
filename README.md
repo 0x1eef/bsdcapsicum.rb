@@ -75,6 +75,11 @@ bsdcapsicum.rb is available via rubygems.org:
 
     gem install bsdcapsicum.rb
 
+## Sources
+
+* [GitHub](https://github.com/0x1eef/bsdcapsicum.rb#readme)
+* [git.HardenedBSD.org](https://git.hardenedbsd.org/0x1eef/bsdcapsicum.rb#about)
+
 ## See also
 
 * [Freaky/ruby-capsicum](https://github.com/Freaky/ruby-capsicum) <br>
