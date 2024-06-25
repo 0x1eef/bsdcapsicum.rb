@@ -16,6 +16,7 @@ capabilities. See the
 manual page for more details:
 
 ```ruby
+#!/usr/bin/env ruby
 require "bsd/capsicum"
 
 print "In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
@@ -43,6 +44,7 @@ an architecture where a parent process can spawn one or more child processes to 
 certain tasks but with restrictions in place:
 
 ```ruby
+#!/usr/bin/env ruby
 require "bsd/capsicum"
 
 print "[parent] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
