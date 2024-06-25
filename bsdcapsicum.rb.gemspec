@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.files         = Dir["lib/*.rb", "lib/**/*.rb", "README.md", "LICENSE", "*.gemspec"]
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency "fiddle", "~> 1.1"
   spec.add_development_dependency "bundler", "~> 2.5"
   spec.add_development_dependency "rake", "~> 13.2"
   spec.add_development_dependency "minitest", "~> 5.0"
