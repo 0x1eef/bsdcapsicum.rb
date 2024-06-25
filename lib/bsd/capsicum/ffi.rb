@@ -1,4 +1,3 @@
-# @api private
 module BSD::Capsicum
   module FFI
     require "fiddle"
