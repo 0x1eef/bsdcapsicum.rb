@@ -2,6 +2,7 @@
 module BSD::Capsicum
   module FFI
     require "fiddle"
+    include Fiddle::Types
     module_function
 
     ##
@@ -11,7 +12,7 @@ module BSD::Capsicum
       Fiddle::Function.new(
         libc["cap_enter"],
         [],
-        Fiddle::Types::INT
+        INT
       ).call
     end
 
@@ -22,9 +23,37 @@ module BSD::Capsicum
     def cap_getmode(uintp)
       Fiddle::Function.new(
         libc["cap_getmode"],
-        [Fiddle::Types::INTPTR_T],
-        Fiddle::Types::INT
+        [INTPTR_T],
+        INT
       ).call(uintp)
+    end
+
+    ##
+    # Provides a Ruby interface for cap_rights_limit(2)
+    # @param [Integer] fd
+    # @param [Fiddle::Pointer] rights
+    # @return [Integer]
+    def cap_rights_limit(fd, rights)
+      Fiddle::Function.new(
+        libc["cap_rights_limit"],
+        [INT, VOIDP],
+        INT
+      ).call(fd, rights)
+    end
+
+    ##
+    # Provides a Ruby interface for cap_rights_init(2)
+    # @param [Array<Integer>] rights
+    # @return [Fiddle::Pointer]
+    def cap_rights_init(*rights)
+      voidp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_VOIDP)
+      varargs = rights.flat_map { [ULONG_LONG, Symbol === _1 ? Constants.const_get(_1) : _1] }
+      Fiddle::Function.new(
+        libc["__cap_rights_init"],
+        [INT, VOIDP, VARIADIC],
+        VOIDP
+      ).call(0, voidp, *varargs)
+      voidp
     end
 
     ##

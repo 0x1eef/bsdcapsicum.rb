@@ -38,4 +38,16 @@ class BSD::Capsicum::Test < Minitest::Test
   ensure
     ch.close
   end
+
+  def test_rights_limit_on_stdout
+    ch = xchan(:marshal)
+    fork do
+      BSD::Capsicum.set_rights!($stdout, [])
+      puts 123
+    rescue Errno::ENOTCAPABLE => ex
+      ch.send(ex)
+    end
+    Process.wait
+    assert_equal Errno::ENOTCAPABLE, ch.recv.class
+  end
 end

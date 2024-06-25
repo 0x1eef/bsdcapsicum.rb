@@ -5,6 +5,7 @@ end unless defined?(BSD)
 
 module BSD::Capsicum
   require_relative "capsicum/version"
+  require_relative "capsicum/constants"
   require_relative "capsicum/ffi"
   extend self
 
@@ -41,4 +42,27 @@ module BSD::Capsicum
     raise(SystemCallError.new("cap_enter", Fiddle.last_error))
   end
   alias_method :enter_capability_mode!, :enter!
+
+  ##
+  # Restrict the capabilities of a file descriptor
+  #
+  # @see https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&apropos=0&sektion=2&format=html cap_rights_limit(2)
+  # @example
+  #   # Allow: READ, WRITE on standard output
+  #   BSD::Capsicum.set_rights!(STDOUT, [:CAP_READ, :CAP_WRITE])
+  # @raise [SystemCallError]
+  #  Might raise a subclass of SystemCallError
+  # @param [#to_i] io
+  #  An IO object
+  # @param [Array<String>] rights
+  #  An allowed set of capabilities
+  # @return [Boolean]
+  #  Returns true when successful
+  def set_rights!(io, rights)
+    voidp = FFI.cap_rights_init(*rights)
+    FFI.cap_rights_limit(io.to_i, voidp).zero? ||
+    raise(SystemCallError.new("cap_rights_limit", Fiddle.last_error))
+  ensure
+    voidp.call_free
+  end
 end
