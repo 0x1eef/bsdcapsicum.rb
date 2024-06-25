@@ -4,29 +4,16 @@ bsdcapsicum.rb provides Ruby bindings for the
 [capsicum(4)](https://man.freebsd.org/cgi/man.cgi?query=capsicum&apropos=0&sektion=4&format=html)
 feature that's available on FreeBSD.
 
-## Installation
+## Examples
 
-A Capsicum-enabled OS is, of course, required.  FreeBSD 10+ (or derivative),
-possibly [capsicum-linux](http://capsicum-linux.org/).
+__Capability mode__
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'capsicum'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install capsicum
-
-
-## Usage
-
-Basic synopsis:
+A process can enter into capability mode by calling
+[BSD::Capsicum.enter!]().
+After entering capability mode, the process has limited
+capabilities. See the
+[cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
+manual page for more details.
 
 ```ruby
 require "bsd/capsicum"
@@ -48,10 +35,12 @@ end
 # Error: Not permitted in capability mode @ rb_sysopen - /dev/null (Errno::ECAPMODE)
 ```
 
-i.e. anything that involves opening a file, connecting a socket, or executing a
-program is verboten.  Kinda.
+__IPC__
 
-On fork-capable Rubies, you can also do this:
+By spawning a child process and then entering capability mode, restrictions can be
+limited to a child process (and its child processes, if any). This can be helpful in
+an architecture where a parent process can spawn one or more child processes to handle
+certain tasks but with restrictions in place:
 
 ```ruby
 require "bsd/capsicum"
@@ -74,51 +63,18 @@ print "[parent] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes"
 # [parent] In capability mode: no
 ```
 
-## But How Can I Get Anything Done?
 
-Open your files and sockets before the current process enters capability mode.
-If you have a `TCPServer` open, for example, you can still call `#accept` on it,
-so a useful server could conceivably run within it.
+## Install
 
-You *can* open new files, but this requires access to *at() syscalls.  If Ruby
-supported them, it might look something like this:
+bsdcapsicum.rb is available via rubygems.org:
 
-```ruby
-dir = Dir.open("/path/to/my/files")
+    gem install bsdcapsicum.rb
 
-BSD::Capsicum.enter!
+## See also
 
-file = File.openat(dir, "mylovelyfile")
-File.renameat(dir, "foo", dir, "bar")
-File.unlinkat(dir, "moo")
-```
-
-Unfortunately, it doesn't.  See https://bugs.ruby-lang.org/issues/10181
-
-You may consider spawning off workers, maintaining a privileged master process,
-and using IPC to communicate with them.
-
-## Todo
-
-Wrap Casper to provide DNS services, additional rights controls, etc.
-
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run
-`rake test` to run the tests. You can also run `bin/console` for an interactive
-prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To
-release a new version, update the version number in `version.rb`, and then run
-`bundle exec rake release`, which will create a git tag for the version, push
-git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/Freaky/ruby-capsicum.
-
+* [Freaky/ruby-capsicum](https://github.com/Freaky/ruby-capsicum)
+  bsdcapsicum.rb is a fork of this project. It was a huge help both
+  in terms of code and documentation.
 
 ## License
 
