@@ -9,7 +9,7 @@ feature that's available on FreeBSD.
 __Capability mode__
 
 A process can enter into capability mode by calling
-[BSD::Capsicum.enter!]().
+[BSD::Capsicum.enter!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#enter!-instance_method).
 After entering capability mode, the process has limited
 capabilities. See the
 [cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
