@@ -3,6 +3,8 @@ module BSD::Capsicum
   module FFI
     require "fiddle"
     include Fiddle::Types
+    include Constants
+
     module_function
 
     ##
@@ -52,7 +54,7 @@ module BSD::Capsicum
         libc["__cap_rights_init"],
         [INT, VOIDP, VARIADIC],
         VOIDP
-      ).call(0, voidp, *varargs)
+      ).call(CAP_RIGHTS_VERSION, voidp, *varargs)
       voidp
     end
 
