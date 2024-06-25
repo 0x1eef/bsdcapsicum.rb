@@ -64,4 +64,5 @@ module BSD::Capsicum
       @libc ||= Fiddle.dlopen Dir["/lib/libc.*"].first
     end
   end
+  private_constant :FFI
 end
