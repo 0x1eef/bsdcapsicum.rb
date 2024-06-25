@@ -38,7 +38,7 @@ module BSD::Capsicum
   # @return [Boolean]
   #  Returns true when successful
   def enter!
-    return true unless FFI.cap_enter == -1
-    raise SystemCallError.new("cap_enter", Fiddle.last_error)
+    FFI.cap_enter.zero? ||
+    raise(SystemCallError.new("cap_enter", Fiddle.last_error))
   end
 end
