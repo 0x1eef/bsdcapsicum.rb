@@ -58,9 +58,9 @@ Capsicum.in_capability_mode?   # => false
 
 ## But How Can I Get Anything Done?
 
-Open your files and sockets before entering the sandbox.  If you have a
-`TCPServer` open, for example, you can still call `#accept` on it, so a useful
-server could conceivably run within it.
+Open your files and sockets before the current process enters capability mode.
+If you have a `TCPServer` open, for example, you can still call `#accept` on it,
+so a useful server could conceivably run within it.
 
 You *can* open new files, but this requires access to *at() syscalls.  If Ruby
 supported them, it might look something like this:
