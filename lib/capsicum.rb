@@ -48,7 +48,7 @@ module Capsicum
   #  Might raise a subclass of SystemCallError
   # @return [Boolean]
   #  Returns true if the current process is in capability mode
-  def sandboxed?
+  def in_capability_mode?
     uintp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_UINT)
     ret = LibC.cap_getmode(uintp)
 
@@ -60,7 +60,6 @@ module Capsicum
   ensure
     uintp.call_free
   end
-  alias_method :capability_mode?, :sandboxed?
 
   ##
   # Enter capability mode

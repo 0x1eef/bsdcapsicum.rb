@@ -12,10 +12,10 @@ class CapsicumTest < Minitest::Test
 
   # After this test we're in capability mode and cannot escape.
   def test_1_capsicum
-    refute Capsicum.sandboxed?
+    refute Capsicum.in_capability_mode?
     assert Capsicum.enter!
     assert Capsicum.enter!
-    assert Capsicum.sandboxed?
+    assert Capsicum.in_capability_mode?
 
     assert_raises(Errno::ECAPMODE) do
       File.new(File::NULL)

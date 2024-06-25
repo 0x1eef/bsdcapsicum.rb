@@ -29,9 +29,9 @@ Or install it yourself as:
 Basic synopsis:
 
 ```ruby
-Capsicum.sandboxed?    # => false
+Capsicum.in_capability_mode?    # => false
 Capsicum.enter!        # => true
-Capsicum.sandboxed?    # => true
+Capsicum.in_capability_mode?    # => true
 
 File.new("/dev/null")  # => Errno::ECAPMODE: Not permitted in capability mode @ rb_sysopen - /dev/null
 TCPSocket.new("0", 80) # => Errno::ECAPMODE: Not permitted in capability mode - connect(2) for "0" port 80
@@ -46,19 +46,15 @@ program is verboten.  Kinda.
 On fork-capable Rubies, you can also do this:
 
 ```ruby
-Capsicum.sandboxed?   # => false
-
-status = Capsicum.within_sandbox do
-  Capsicum.sandboxed? # => true
+Capsicum.in_capability_mode?   # => false
+fork do
+  Capsicum.in_capability_mode? # => true
   exit 42
 end
+Process.wait
+Capsicum.in_capability_mode?   # => false
 
-Capsicum.sandboxed?   # => false
-status.exitstatus     # => 42
 ```
-
-The result is a Process::Status object.
-
 
 ## But How Can I Get Anything Done?
 
