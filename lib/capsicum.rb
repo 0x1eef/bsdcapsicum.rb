@@ -8,6 +8,7 @@ module Capsicum
   module LibC
     module_function
 
+    ##
     # Provides a Ruby interface for cap_enter(2)
     # @return [Integer]
     def cap_enter
@@ -18,6 +19,7 @@ module Capsicum
       ).call
     end
 
+    ##
     # Provides a Ruby interface for cap_getmode(2)
     # @param [Fiddle::Pointer] uintp
     # @return [Integer]
@@ -29,17 +31,23 @@ module Capsicum
       ).call(uintp)
     end
 
+    ##
+    # @api private
     def libc
       @libc ||= Fiddle.dlopen Dir["/lib/libc.*"].first
     end
   end
 
+  module_function
+
+  ##
   # Check if we're in capability mode.
   #
   # @see cap_getmode(2)
-  #
-  # @return [Boolean] true if we've entered capability mode
-  # @raise [Errno::ENOTCAPABLE] - Capsicum not enabled.
+  # @raise [SystemCallError]
+  #  Might raise a subclass of SystemCallError
+  # @return [Boolean]
+  #  Returns true if the current process is in capability mode
   def sandboxed?
     uintp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_UINT)
     ret = LibC.cap_getmode(uintp)
@@ -54,16 +62,16 @@ module Capsicum
   end
   alias_method :capability_mode?, :sandboxed?
 
-  # Enter capability sandbox mode.
+  ##
+  # Enter capability mode
   #
   # @see cap_enter(2)
-  #
-  # @return [Boolean] true if we've entered capability mode.
-  # @raise [Errno::ENOTCAPABLE] - Capsicum not enabled.
+  # @raise [SystemCallError]
+  #  Might raise a subclass of SystemCallError
+  # @return [Boolean]
+  #  Returns true when the current process is in capability mode
   def enter!
-    ret = LibC.cap_enter
-
-    if ret == 0
+    if LibC.cap_enter == 0
       true
     else
       raise SystemCallError.new("cap_enter", Fiddle.last_error)
@@ -87,8 +95,4 @@ module Capsicum
 
     Process.waitpid2(pid).last
   end
-
-  module_function :sandboxed?
-  module_function :enter!
-  module_function :within_sandbox
 end
