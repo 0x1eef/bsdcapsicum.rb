@@ -52,6 +52,7 @@ module Capsicum
   ensure
     uintp.call_free
   end
+  alias_method :capability_mode?, :sandboxed?
 
   # Enter capability sandbox mode.
   #
