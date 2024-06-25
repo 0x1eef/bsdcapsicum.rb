@@ -10,6 +10,15 @@ class ReadMeTest < Minitest::Test
     assert_match %r|Error:.+\(Errno::ECAPMODE\)\n|, r.stdout
   end
 
+  def test_2_fork_example
+    r = ruby(readme_example("2_fork_example.rb"))
+    ["[parent] In capability mode: no\n",
+     "[subprocess] Enter capability mode: ok\n",
+     "[subprocess] In capability mode: yes\n",
+     "[subprocess] Exit\n",
+     "[parent] In capability mode: no\n"
+    ].each { assert_match(/#{Regexp.escape(_1)}/, r.stdout) }
+  end
   private
 
   def ruby(*argv)

@@ -54,14 +54,24 @@ program is verboten.  Kinda.
 On fork-capable Rubies, you can also do this:
 
 ```ruby
-Capsicum.in_capability_mode?   # => false
+require "capsicum"
+
+print "[parent] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
 fork do
-  Capsicum.in_capability_mode? # => true
+  print "[subprocess] Enter capability mode: ", Capsicum.enter! ? "ok" : "error", "\n"
+  print "[subprocess] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+  print "[subprocess] Exit", "\n"
   exit 42
 end
 Process.wait
-Capsicum.in_capability_mode?   # => false
+print "[parent] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
 
+##
+# [parent] In capability mode: no
+# [subprocess] Enter capability mode: ok
+# [subprocess] In capability mode: yes
+# [subprocess] Exit
+# [parent] In capability mode: no
 ```
 
 ## But How Can I Get Anything Done?
