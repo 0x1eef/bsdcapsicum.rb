@@ -9,7 +9,7 @@ module BSD::Capsicum
   extend self
 
   ##
-  # Check if we're in capability mode.
+  # Check if we're in capability mode
   #
   # @see https://man.freebsd.org/cgi/man.cgi?query=cap_getmode&apropos=0&sektion=2&format=html cap_getmode(2)
   # @raise [SystemCallError]
@@ -18,7 +18,6 @@ module BSD::Capsicum
   #  Returns true when the current process is in capability mode
   def in_capability_mode?
     uintp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_UINT)
-    FFI.cap_getmode(uintp)
     if FFI.cap_getmode(uintp).zero?
       uintp[0, Fiddle::SIZEOF_UINT].unpack("i") == [1]
     else
