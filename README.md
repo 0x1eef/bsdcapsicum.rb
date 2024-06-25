@@ -1,8 +1,8 @@
-# Capsicum
+## About
 
-A simple FFI wrapper around the [Capsicum](https://wiki.freebsd.org/Capsicum)
-OS capability and sandbox framework.
-
+bsdcapsicum.rb provides Ruby bindings for the
+[capsicum(4)](https://man.freebsd.org/cgi/man.cgi?query=capsicum&apropos=0&sektion=4&format=html)
+feature that's available on FreeBSD.
 
 ## Installation
 
@@ -29,11 +29,11 @@ Or install it yourself as:
 Basic synopsis:
 
 ```ruby
-require "capsicum"
+require "bsd/capsicum"
 
-print "In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
-print "Enter capability mode: ", Capsicum.enter! ? "ok" : "error", "\n"
-print "In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+print "In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+print "Enter capability mode: ", BSD::Capsicum.enter! ? "ok" : "error", "\n"
+print "In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
 
 begin
   File.new(File::NULL)
@@ -54,17 +54,17 @@ program is verboten.  Kinda.
 On fork-capable Rubies, you can also do this:
 
 ```ruby
-require "capsicum"
+require "bsd/capsicum"
 
-print "[parent] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+print "[parent] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
 fork do
-  print "[subprocess] Enter capability mode: ", Capsicum.enter! ? "ok" : "error", "\n"
-  print "[subprocess] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+  print "[subprocess] Enter capability mode: ", BSD::Capsicum.enter! ? "ok" : "error", "\n"
+  print "[subprocess] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
   print "[subprocess] Exit", "\n"
   exit 42
 end
 Process.wait
-print "[parent] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+print "[parent] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
 
 ##
 # [parent] In capability mode: no
@@ -86,7 +86,7 @@ supported them, it might look something like this:
 ```ruby
 dir = Dir.open("/path/to/my/files")
 
-Capsicum.enter!
+BSD::Capsicum.enter!
 
 file = File.openat(dir, "mylovelyfile")
 File.renameat(dir, "foo", dir, "bar")

@@ -1,4 +1,5 @@
 require "bundler/setup"
 require "test-cmd"
-require "capsicum"
+require "xchan"
+require "bsd/capsicum"
 require "minitest/autorun"

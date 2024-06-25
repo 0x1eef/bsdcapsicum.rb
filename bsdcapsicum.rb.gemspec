@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'capsicum/version'
+require 'bsd/capsicum/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "capsicum"
-  spec.version       = Capsicum::VERSION
+  spec.name          = "bsdcapsicum.rb"
+  spec.version       = BSD::Capsicum::VERSION
   spec.authors       = ["Thomas Hurst"]
   spec.email         = ["tom@hur.st"]
 
-  spec.summary       = %q{Experimental interface to Capsicum sandboxing}
+  spec.summary       = %q{Ruby bindings for FreeBSD's capsicum(4)}
   spec.homepage      = "https://github.com/Freaky/ruby-capsicum"
   spec.license       = "MIT"
 
@@ -34,4 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "standard", "~> 1.38"
   spec.add_development_dependency "test-cmd.rb", "~> 0.12"
+  spec.add_development_dependency "xchan.rb", "~> 0.17"
 end

@@ -1,15 +1,15 @@
 require "bundler/setup"
-require "capsicum"
+require "bsd/capsicum"
 
-print "[parent] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+print "[parent] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
 fork do
-  print "[subprocess] Enter capability mode: ", Capsicum.enter! ? "ok" : "error", "\n"
-  print "[subprocess] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+  print "[subprocess] Enter capability mode: ", BSD::Capsicum.enter! ? "ok" : "error", "\n"
+  print "[subprocess] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
   print "[subprocess] Exit", "\n"
   exit 42
 end
 Process.wait
-print "[parent] In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+print "[parent] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes" : "no", "\n"
 
 ##
 # [parent] In capability mode: no

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-module Capsicum
+module BSD
+end unless defined?(BSD)
+
+module BSD::Capsicum
   require_relative "capsicum/version"
   require_relative "capsicum/libc"
   extend self

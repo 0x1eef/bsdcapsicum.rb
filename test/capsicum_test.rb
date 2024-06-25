@@ -2,27 +2,40 @@
 
 require "test_helper"
 
-class CapsicumTest < Minitest::Test
-  # This is going to get awkward...
-  i_suck_and_my_tests_are_order_dependent!
-
+class BSD::Capsicum::Test < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::Capsicum::VERSION
+    refute_nil BSD::Capsicum::VERSION
   end
 
-  # After this test we're in capability mode and cannot escape.
-  def test_1_capsicum
-    refute Capsicum.in_capability_mode?
-    assert Capsicum.enter!
-    assert Capsicum.enter!
-    assert Capsicum.in_capability_mode?
+  def test_in_capability_mode_default
+    assert_equal false, BSD::Capsicum.in_capability_mode?
+  end
 
-    assert_raises(Errno::ECAPMODE) do
+  def test_capability_mode_ecapmode
+    ch = xchan(:marshal)
+    fork do
+      BSD::Capsicum.enter!
       File.new(File::NULL)
+    rescue Errno::ECAPMODE => ex
+      ch.send(ex)
     end
+    Process.wait
+    assert_equal Errno::ECAPMODE, ch.recv.class
+  ensure
+    ch.close
+  end
 
-    assert_raises(Errno::ENOENT) do
-      puts `ls`
+  def test_capability_mode_with_shell_command
+    ch = xchan(:marshal)
+    fork do
+      BSD::Capsicum.enter!
+      `ls`
+    rescue Errno::ENOENT => ex
+      ch.send(ex)
     end
+    Process.wait
+    assert_equal Errno::ENOENT, ch.recv.class
+  ensure
+    ch.close
   end
 end
