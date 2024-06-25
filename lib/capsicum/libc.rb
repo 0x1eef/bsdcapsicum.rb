@@ -1,5 +1,6 @@
 # @api private
 module Capsicum::LibC
+  require "fiddle"
   module_function
 
   ##

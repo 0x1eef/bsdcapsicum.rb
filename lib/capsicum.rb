@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-require "capsicum/version"
-require "fiddle"
-
 module Capsicum
+  require_relative "capsicum/version"
   require_relative "capsicum/libc"
   module_function
 
