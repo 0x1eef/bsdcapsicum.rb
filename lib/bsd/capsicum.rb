@@ -40,5 +40,5 @@ module BSD::Capsicum
     FFI.cap_enter.zero? ||
     raise(SystemCallError.new("cap_enter", Fiddle.last_error))
   end
-  alias_method :enter!, :enter_capability_mode!
+  alias_method :enter_capability_mode!, :enter!
 end
