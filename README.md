@@ -13,7 +13,7 @@ A process can enter into capability mode by calling
 After entering capability mode, the process has limited
 capabilities. See the
 [cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
-manual page for more details.
+manual page for more details:
 
 ```ruby
 require "bsd/capsicum"
@@ -63,6 +63,9 @@ print "[parent] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes"
 # [parent] In capability mode: no
 ```
 
+## Documentation
+
+A complete API reference is available at [0x1eef.github.io/x/bsdcapsicum.rb](https://0x1eef.github.io/x/bsdcapsicum.rb)
 
 ## Install
 
@@ -72,7 +75,7 @@ bsdcapsicum.rb is available via rubygems.org:
 
 ## See also
 
-* [Freaky/ruby-capsicum](https://github.com/Freaky/ruby-capsicum)
+* [Freaky/ruby-capsicum](https://github.com/Freaky/ruby-capsicum) <br>
   bsdcapsicum.rb is a fork of this project. It was a huge help both
   in terms of code and documentation.
 
