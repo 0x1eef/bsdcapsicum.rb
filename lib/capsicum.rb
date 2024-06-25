@@ -28,18 +28,15 @@ module Capsicum
   alias_method :capability_mode?, :in_capability_mode?
 
   ##
-  # Enter capability mode
+  # Enter a process into capability mode
   #
   # @see cap_enter(2)
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
   # @return [Boolean]
-  #  Returns true when the current process is in capability mode
+  #  Returns true when successful
   def enter!
-    if LibC.cap_enter == 0
-      true
-    else
-      raise SystemCallError.new("cap_enter", Fiddle.last_error)
-    end
+    return true unless LibC.cap_enter == -1
+    raise SystemCallError.new("cap_enter", Fiddle.last_error)
   end
 end
