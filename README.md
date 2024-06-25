@@ -29,15 +29,23 @@ Or install it yourself as:
 Basic synopsis:
 
 ```ruby
-Capsicum.in_capability_mode?    # => false
-Capsicum.enter!        # => true
-Capsicum.in_capability_mode?    # => true
+require "capsicum"
 
-File.new("/dev/null")  # => Errno::ECAPMODE: Not permitted in capability mode @ rb_sysopen - /dev/null
-TCPSocket.new("0", 80) # => Errno::ECAPMODE: Not permitted in capability mode - connect(2) for "0" port 80
-`rm -rf /`             # => Errno::ECAPMODE: Not permitted in capability mode - rm
-system "rm -rf /"      # => nil
-require 'time'         # => LoadError: cannot load such file -- time
+print "In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+print "Enter capability mode: ", Capsicum.enter! ? "ok" : "error", "\n"
+print "In capability mode: ", Capsicum.in_capability_mode? ? "yes" : "no", "\n"
+
+begin
+  File.new(File::NULL)
+rescue Errno::ECAPMODE => ex
+  print "Error: #{ex.message} (#{ex.class})", "\n"
+end
+
+##
+# In capability mode: no
+# Enter capability mode: ok
+# In capability mode: yes
+# Error: Not permitted in capability mode @ rb_sysopen - /dev/null (Errno::ECAPMODE)
 ```
 
 i.e. anything that involves opening a file, connecting a socket, or executing a
