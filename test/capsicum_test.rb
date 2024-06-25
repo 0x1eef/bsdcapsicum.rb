@@ -17,7 +17,7 @@ class CapsicumTest < Minitest::Test
 
     result = Capsicum.within_sandbox do
       Capsicum.sandboxed? == true || Process.exit!(1)
-      File.new("/dev/null")
+      File.new(File::NULL)
     rescue Errno::ECAPMODE
       Process.exit!(0)
     else
@@ -36,7 +36,7 @@ class CapsicumTest < Minitest::Test
     assert Capsicum.sandboxed?
 
     assert_raises(Errno::ECAPMODE) do
-      File.new("/dev/null")
+      File.new(File::NULL)
     end
 
     assert_raises(Errno::ENOENT) do
