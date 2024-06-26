@@ -1,6 +1,6 @@
 ## About
 
-bsdcapsicum.rb provides Ruby bindings for FreeBSD's
+bsdcapsicum.rb provides Ruby bindings for
 [capsicum(4)](https://man.freebsd.org/cgi/man.cgi?query=capsicum&apropos=0&sektion=4&format=html).
 
 ## Examples
