@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BSD::Capsicum
   module FFI
     require "fiddle"
@@ -48,7 +50,7 @@ module BSD::Capsicum
     # @return [Fiddle::Pointer]
     def cap_rights_init(*rights)
       voidp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_VOIDP)
-      varargs = rights.flat_map { [ULONG_LONG, Symbol === _1 ? Constants.const_get(_1) : _1] }
+      varargs = rights.flat_map { [ULONG_LONG, (Symbol === _1) ? Constants.const_get(_1) : _1] }
       Fiddle::Function.new(
         libc["__cap_rights_init"],
         [INT, VOIDP, VARIADIC],

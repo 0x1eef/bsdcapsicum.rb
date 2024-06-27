@@ -18,3 +18,14 @@ Style/FrozenStringLiteralComment:
 
 ##
 # Disabled
+Style/MultilineIfModifier:
+  Enabled: false
+Layout/ArrayAlignment:
+  Enabled: false
+Layout/MultilineOperationIndentation:
+  Enabled: False
+Layout/MultilineArrayBraceLayout:
+  Enabled: false
+Layout/ExtraSpacing:
+  Exclude:
+    - lib/bsd/capsicum/constants.rb

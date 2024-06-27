@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BSD::Capsicum
   ##
   # The constants found in this module are defined
