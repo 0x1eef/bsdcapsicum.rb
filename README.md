@@ -66,6 +66,50 @@ print "[parent] In capability mode: ", BSD::Capsicum.in_capability_mode? ? "yes"
 # [parent] In capability mode: no
 ```
 
+__Rights__
+
+The
+[BSD::Capsicum.set_rights!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#set_rights!-instance_method)
+method can reduce the capabilities of a file descriptor. The following
+example obtains a file descriptor in a parent process (with both read and
+write permissions), then limits the capabilities of the file descriptor
+in a child process to allow only read operations. See the
+[rights(4)](https://man.freebsd.org/cgi/man.cgi?query=rights&apropos=0&sektion=4&format=html)
+man page for a full list of capabilities:
+
+``` ruby
+#!/usr/bin/env ruby
+require "bsd/capsicum"
+
+path = File.join(Dir.home, "bsdcapsicum.txt")
+file = File.open(path, File::CREAT | File::TRUNC | File::RDWR)
+file.sync = true
+print "[parent] obtain file descriptor (with read+write permissions)", "\n"
+fork do
+  BSD::Capsicum.set_rights!(file, %i[CAP_READ])
+  print "[subprocess] reduce rights to read-only", "\n"
+
+  file.gets
+  print "[subprocess] read successful", "\n"
+
+  begin
+    file.write "foo"
+  rescue Errno::ENOTCAPABLE => ex
+    print "[subprocess] Error: #{ex.message} (#{ex.class})", "\n"
+  end
+end
+Process.wait
+file.write "[parent] Hello from #{Process.pid}", "\n"
+print "[parent] write successful", "\n"
+
+##
+# [parent] obtain file descriptor (with read+write permissions)
+# [subprocess] reduce rights to read-only
+# [subprocess] read successful
+# [subprocess] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
+# [parent] write successful
+```
+
 ## Documentation
 
 A complete API reference is available at [0x1eef.github.io/x/bsdcapsicum.rb](https://0x1eef.github.io/x/bsdcapsicum.rb)

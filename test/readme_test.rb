@@ -19,6 +19,17 @@ class ReadMeTest < Minitest::Test
      "[parent] In capability mode: no\n"
     ].each { assert_match(/#{Regexp.escape(_1)}/, r.stdout) }
   end
+
+  def test_3_set_rights_example
+    r = ruby(readme_example("3_set_rights_example.rb"))
+    ["[parent] obtain file descriptor (with read+write permissions)\n",
+     "[subprocess] reduce rights to read-only\n",
+     "[subprocess] read successful\n",
+     %r|\[subprocess\] Error:.+\(Errno::ENOTCAPABLE\)\n|,
+     "[parent] write successful\n"
+    ].each { assert_match(Regexp === _1 ? _1 : /#{Regexp.escape(_1)}/, r.stdout) }
+  end
+
   private
 
   def ruby(*argv)
