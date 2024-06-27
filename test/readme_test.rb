@@ -28,6 +28,8 @@ class ReadMeTest < Minitest::Test
      %r|\[subprocess\] Error:.+\(Errno::ENOTCAPABLE\)\n|,
      "[parent] write successful\n"
     ].each { assert_match(Regexp === _1 ? _1 : /#{Regexp.escape(_1)}/, r.stdout) }
+  ensure
+    FileUtils.rm File.join(Dir.home, "bsdcapsicum.txt")
   end
 
   private
