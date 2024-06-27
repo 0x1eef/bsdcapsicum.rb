@@ -23,7 +23,7 @@ file.write "[parent] Hello from #{Process.pid}", "\n"
 print "[parent] Write OK", "\n"
 
 ##
-# [parent] Obtain file descriptor (with all capibilites)
+# [parent] Obtain file descriptor (with all capabilities)
 # [subprocess] Reduce capabilities to read
 # [subprocess] Read OK
 # [subprocess] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
