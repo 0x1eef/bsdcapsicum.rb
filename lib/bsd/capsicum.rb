@@ -47,9 +47,10 @@ module BSD::Capsicum
   # Restrict the capabilities of a file descriptor
   #
   # @see https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&apropos=0&sektion=2&format=html cap_rights_limit(2)
+  # @see {BSD::Capsicum::Constants} See Constants for a full list of capabilities
   # @example
-  #   # Allow: READ, WRITE on standard output
-  #   BSD::Capsicum.set_rights!(STDOUT, [:CAP_READ, :CAP_WRITE])
+  #   # Restrict capabilities of STDOUT to read / write
+  #   BSD::Capsicum.set_rights!(STDOUT, %i[CAP_READ CAP_WRITE])
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
   # @param [#to_i] io
