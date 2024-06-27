@@ -26,6 +26,8 @@ Layout/MultilineOperationIndentation:
   Enabled: False
 Layout/MultilineArrayBraceLayout:
   Enabled: false
+Layout/MultilineArrayBraceLayout:
+  Enabled: false
 Layout/ExtraSpacing:
   Exclude:
     - lib/bsd/capsicum/constants.rb

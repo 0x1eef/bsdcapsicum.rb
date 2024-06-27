@@ -6,10 +6,10 @@ require "test-cmd"
 class ReadMeTest < Minitest::Test
   def test_1_capability_mode_example
     r = ruby(readme_example("1_capability_mode_example.rb"))
-    assert_match %r{In capability mode: no\n}, r.stdout
-    assert_match %r{Enter capability mode: ok\n}, r.stdout
-    assert_match %r{In capability mode: yes\n}, r.stdout
-    assert_match %r{Error:.+\(Errno::ECAPMODE\)\n}, r.stdout
+    assert_match %r|In capability mode: no\n|, r.stdout
+    assert_match %r|Enter capability mode: ok\n|, r.stdout
+    assert_match %r|In capability mode: yes\n|, r.stdout
+    assert_match %r|Error:.+\(Errno::ECAPMODE\)\n|, r.stdout
   end
 
   def test_2_fork_example
@@ -27,7 +27,7 @@ class ReadMeTest < Minitest::Test
     ["[parent] obtain file descriptor (with read+write permissions)\n",
      "[subprocess] reduce rights to read-only\n",
      "[subprocess] read successful\n",
-     %r{\[subprocess\] Error:.+\(Errno::ENOTCAPABLE\)\n},
+     %r|\[subprocess\] Error:.+\(Errno::ENOTCAPABLE\)\n|,
      "[parent] write successful\n"
     ].each { assert_match((Regexp === _1) ? _1 : /#{Regexp.escape(_1)}/, r.stdout) }
   ensure
