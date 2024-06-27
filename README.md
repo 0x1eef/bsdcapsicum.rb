@@ -71,8 +71,8 @@ __Rights__
 The
 [BSD::Capsicum.set_rights!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#set_rights!-instance_method)
 method can reduce the capabilities of a file descriptor. The following
-example obtains a file descriptor in a parent process (with both read and
-write permissions), then limits the capabilities of the file descriptor
+example obtains a file descriptor in a parent process (with full capabilities),
+then limits the capabilities of the file descriptor
 in a child process to allow only read operations. See the
 [rights(4)](https://man.freebsd.org/cgi/man.cgi?query=rights&apropos=0&sektion=4&format=html)
 man page for a full list of capabilities:
@@ -84,13 +84,13 @@ require "bsd/capsicum"
 path = File.join(Dir.home, "bsdcapsicum.txt")
 file = File.open(path, File::CREAT | File::TRUNC | File::RDWR)
 file.sync = true
-print "[parent] obtain file descriptor (with read+write permissions)", "\n"
+print "[parent] Obtain file descriptor (with all capabilities)", "\n"
 fork do
   BSD::Capsicum.set_rights!(file, %i[CAP_READ])
-  print "[subprocess] reduce rights to read-only", "\n"
+  print "[subprocess] Reduce capabilities to read", "\n"
 
   file.gets
-  print "[subprocess] read successful", "\n"
+  print "[subprocess] Read OK", "\n"
 
   begin
     file.write "foo"
@@ -100,14 +100,14 @@ fork do
 end
 Process.wait
 file.write "[parent] Hello from #{Process.pid}", "\n"
-print "[parent] write successful", "\n"
+print "[parent] Write OK", "\n"
 
 ##
-# [parent] obtain file descriptor (with read+write permissions)
-# [subprocess] reduce rights to read-only
-# [subprocess] read successful
+# [parent] Obtain file descriptor (with all capibilites)
+# [subprocess] Reduce capabilities to read
+# [subprocess] Read OK
 # [subprocess] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
-# [parent] write successful
+# [parent] Write OK
 ```
 
 ## Documentation

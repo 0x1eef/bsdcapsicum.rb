@@ -24,11 +24,11 @@ class ReadMeTest < Minitest::Test
 
   def test_3_set_rights_example
     r = ruby(readme_example("3_set_rights_example.rb"))
-    ["[parent] obtain file descriptor (with read+write permissions)\n",
-     "[subprocess] reduce rights to read-only\n",
-     "[subprocess] read successful\n",
+    ["[parent] Obtain file descriptor (with all capabilities)\n",
+     "[subprocess] Reduce capabilities to read\n",
+     "[subprocess] Read OK\n",
      %r|\[subprocess\] Error:.+\(Errno::ENOTCAPABLE\)\n|,
-     "[parent] write successful\n"
+     "[parent] Write OK\n"
     ].each { assert_match((Regexp === _1) ? _1 : /#{Regexp.escape(_1)}/, r.stdout) }
   ensure
     FileUtils.rm File.join(Dir.home, "bsdcapsicum.txt")
