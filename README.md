@@ -133,5 +133,15 @@ bsdcapsicum.rb is available via rubygems.org:
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+bsdcapsicum.rb
+<br>
+[BSD Zero Clause](https://choosealicense.com/licenses/0bsd/)
+<br>
+See [LICENSE](./LICENSE)
+<br><br>
+ruby-capsicum
+<br>
+[Freaky/ruby-capsicum](https://github.com/Freaky/ruby-capsicum) is released
+under the terms of the MIT license
+<br>
+See [LICENSE.ruby-capsicum](/.LICENSE-ruby-capsicum)
