@@ -125,6 +125,7 @@ bsdcapsicum.rb is available via rubygems.org:
 * [GitHub](https://github.com/0x1eef/bsdcapsicum.rb#readme)
 * [GitLab](https://gitlab.com/0x1eef/bsdcapsicum.rb#about)
 * [git.HardenedBSD.org](https://git.hardenedbsd.org/0x1eef/bsdcapsicum.rb#about)
+* [brew.bsd.cafe](https://brew.bsd.cafe/0x1eef/bsdcapsicum.rb)
 
 ## See also
 
