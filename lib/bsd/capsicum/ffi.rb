@@ -3,8 +3,16 @@
 module BSD::Capsicum
   module FFI
     require "fiddle"
+    require "fiddle/import"
+    extend Fiddle::Importer
+    dlload Dir["/lib/libc.*"].first
+
     include Fiddle::Types
     include Constants
+    extern "int cap_getmode(u_int*)"
+    extern "int cap_enter(void)"
+    extern "int cap_rights_limit(int, const cap_rights_t*)"
+    extern "cap_rights_t* __cap_rights_init(int version, cap_rights_t*, ...)"
 
     module_function
 
@@ -12,11 +20,7 @@ module BSD::Capsicum
     # Provides a Ruby interface for cap_enter(2)
     # @return [Integer]
     def cap_enter
-      Fiddle::Function.new(
-        libc["cap_enter"],
-        [],
-        INT
-      ).call
+      self["cap_enter"].call
     end
 
     ##
@@ -24,11 +28,7 @@ module BSD::Capsicum
     # @param [Fiddle::Pointer] uintp
     # @return [Integer]
     def cap_getmode(uintp)
-      Fiddle::Function.new(
-        libc["cap_getmode"],
-        [INTPTR_T],
-        INT
-      ).call(uintp)
+      self["cap_getmode"].call(uintp)
     end
 
     ##
@@ -37,11 +37,7 @@ module BSD::Capsicum
     # @param [Fiddle::Pointer] rights
     # @return [Integer]
     def cap_rights_limit(fd, rights)
-      Fiddle::Function.new(
-        libc["cap_rights_limit"],
-        [INT, VOIDP],
-        INT
-      ).call(fd, rights)
+      self["cap_rights_limit"].call(fd, rights)
     end
 
     ##
@@ -54,21 +50,13 @@ module BSD::Capsicum
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
     def cap_rights_init(rights, *capabilities)
-      Fiddle::Function.new(
-        libc["__cap_rights_init"],
-        [INT, VOIDP, VARIADIC],
-        VOIDP
-      ).call(
-        CAP_RIGHTS_VERSION, rights,
+      self["__cap_rights_init"].call(
+        CAP_RIGHTS_VERSION,
+        rights,
         *capabilities.flat_map {
           [ULONG_LONG, (Symbol === _1) ? Constants.const_get(_1) : _1]
-        })
-    end
-
-    ##
-    # @api private
-    def libc
-      @libc ||= Fiddle.dlopen Dir["/lib/libc.*"].first
+        }
+      )
     end
   end
   private_constant :FFI
