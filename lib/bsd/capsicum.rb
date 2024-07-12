@@ -49,7 +49,7 @@ module BSD::Capsicum
   # @see https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&apropos=0&sektion=2&format=html cap_rights_limit(2)
   # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
   # @example
-  #   # Restrict capabilities of STDOUT to read / write
+  #   # Limit standard output capabilities to read and write
   #   BSD::Capsicum.set_rights!(STDOUT, %i[CAP_READ CAP_WRITE])
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
