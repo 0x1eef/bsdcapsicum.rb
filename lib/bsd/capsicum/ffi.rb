@@ -48,6 +48,7 @@ module BSD::Capsicum
     # Provides a Ruby interface for cap_rights_init(2)
     # @param [Array<Integer>] rights
     # @return [Fiddle::Pointer]
+    #  Returns a pointer to the structure `cap_rights_t`
     def cap_rights_init(*rights)
       voidp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_VOIDP)
       varargs = rights.flat_map { [ULONG_LONG, (Symbol === _1) ? Constants.const_get(_1) : _1] }
