@@ -62,11 +62,8 @@ module BSD::Capsicum
   def set_rights!(io, capabilities)
     rights = Fiddle::Pointer.malloc(Constants::SIZEOF_CAP_RIGHTS_T)
     FFI.cap_rights_init(rights, *capabilities)
-    if FFI.cap_rights_limit(io.to_i, rights).zero?
-      true
-    else
-      raise SystemCallError.new("cap_rights_limit", Fiddle.last_error)
-    end
+    FFI.cap_rights_limit(io.to_i, rights).zero? ||
+    raise(SystemCallError.new("cap_rights_limit", Fiddle.last_error))
   ensure
     rights.call_free
   end
