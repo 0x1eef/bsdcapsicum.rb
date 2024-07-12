@@ -34,25 +34,25 @@ module BSD::Capsicum
     ##
     # Provides a Ruby interface for cap_rights_limit(2)
     # @param [Integer] fd
-    # @param [Fiddle::Pointer] rights
+    # @param [Fiddle::Pointer] rightsp
     # @return [Integer]
-    def cap_rights_limit(fd, rights)
-      self["cap_rights_limit"].call(fd, rights)
+    def cap_rights_limit(fd, rightsp)
+      self["cap_rights_limit"].call(fd, rightsp)
     end
 
     ##
     # Provides a Ruby interface for cap_rights_init(2)
     # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
-    # @param [Fiddle::Pointer] rights
+    # @param [Fiddle::Pointer] rightsp
     #  A pointer to initialize the `cap_rights_t` structure
     # @param [Array<Integer>] capabilities
     #  An allowed set of capabilities
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
-    def cap_rights_init(rights, *capabilities)
+    def cap_rights_init(rightsp, *capabilities)
       self["__cap_rights_init"].call(
         CAP_RIGHTS_VERSION,
-        rights,
+        rightsp,
         *capabilities.flat_map { |cap|
           [ULONG_LONG, cap_all.include?(cap) ? Constants.const_get(cap) : cap]
         }
