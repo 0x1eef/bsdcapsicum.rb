@@ -45,7 +45,7 @@ module BSD::Capsicum
     # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
     # @param [Fiddle::Pointer] rightsp
     #  A pointer to initialize the `cap_rights_t` structure
-    # @param [Array<Integer>] capabilities
+    # @param [Array<Symbol, Integer>] capabilities
     #  An allowed set of capabilities
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
