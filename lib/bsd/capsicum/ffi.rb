@@ -54,12 +54,15 @@ module BSD::Capsicum
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
     def cap_rights_init(rights, *capabilities)
-      varargs = capabilities.flat_map { [ULONG_LONG, (Symbol === _1) ? Constants.const_get(_1) : _1] }
       Fiddle::Function.new(
         libc["__cap_rights_init"],
         [INT, VOIDP, VARIADIC],
         VOIDP
-      ).call(CAP_RIGHTS_VERSION, rights, *varargs)
+      ).call(
+        CAP_RIGHTS_VERSION, rights,
+        *capabilities.flat_map {
+          [ULONG_LONG, (Symbol === _1) ? Constants.const_get(_1) : _1]
+        })
     end
 
     ##
