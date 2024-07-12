@@ -37,7 +37,7 @@ end
 # Error: Not permitted in capability mode @ rb_sysopen - /dev/null (Errno::ECAPMODE)
 ```
 
-__IPC__
+__Child process__
 
 By spawning a child process and then entering capability mode, restrictions can be
 limited to a child process (and its child processes, if any). This can be helpful in
