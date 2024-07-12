@@ -20,6 +20,10 @@ Style/FrozenStringLiteralComment:
 # Disabled
 Style/MultilineIfModifier:
   Enabled: false
+Style/PercentLiteralDelimiters:
+  Enabled: false
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: false
 Layout/ArrayAlignment:
   Enabled: false
 Layout/MultilineOperationIndentation:
