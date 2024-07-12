@@ -44,7 +44,7 @@ module BSD::Capsicum
   alias_method :enter_capability_mode!, :enter!
 
   ##
-  # Restrict the capabilities of a file descriptor
+  # Limit the capabilities of a file descriptor
   #
   # @see https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&apropos=0&sektion=2&format=html cap_rights_limit(2)
   # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
