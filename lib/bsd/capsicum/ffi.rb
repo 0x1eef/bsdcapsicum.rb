@@ -46,7 +46,9 @@ module BSD::Capsicum
 
     ##
     # Provides a Ruby interface for cap_rights_init(2)
+    # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
     # @param [Array<Integer>] rights
+    #  Allowed capabilities
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
     def cap_rights_init(*rights)
