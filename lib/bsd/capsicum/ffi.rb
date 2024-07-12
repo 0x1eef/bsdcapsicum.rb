@@ -4,11 +4,11 @@ module BSD::Capsicum
   module FFI
     require "fiddle"
     require "fiddle/import"
+    include Fiddle::Types
+    include Constants
     extend Fiddle::Importer
     dlload Dir["/lib/libc.*"].first
 
-    include Fiddle::Types
-    include Constants
     extern "int cap_getmode(u_int*)"
     extern "int cap_enter(void)"
     extern "int cap_rights_limit(int, const cap_rights_t*)"
@@ -53,10 +53,18 @@ module BSD::Capsicum
       self["__cap_rights_init"].call(
         CAP_RIGHTS_VERSION,
         rights,
-        *capabilities.flat_map {
-          [ULONG_LONG, (Symbol === _1) ? Constants.const_get(_1) : _1]
+        *capabilities.flat_map { |cap|
+          [ULONG_LONG, cap_all.include?(cap) ? Constants.const_get(cap) : cap]
         }
       )
+    end
+
+    ##
+    # @api private
+    # @return [Array<Symbol>]
+    #  Returns all known capabilities
+    def cap_all
+      @cap_all ||= Constants.constants.select { _1.to_s.start_with?("CAP_") }
     end
   end
   private_constant :FFI
