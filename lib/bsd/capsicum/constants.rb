@@ -91,5 +91,9 @@ module BSD::Capsicum
     CAP_FCHDIR         = 0x200000000000800
     CAP_FCNTL          = 0x200000000008000
     # @endgroup
+
+    # @group Sizes
+    SIZEOF_CAP_RIGHTS_T = 16
+    # @endgroup
   end
 end

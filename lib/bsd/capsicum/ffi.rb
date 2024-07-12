@@ -47,19 +47,19 @@ module BSD::Capsicum
     ##
     # Provides a Ruby interface for cap_rights_init(2)
     # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
-    # @param [Array<Integer>] rights
-    #  Allowed capabilities
+    # @param [Fiddle::Pointer] rights
+    #  A pointer to initialize the `cap_rights_t` structure
+    # @param [Array<Integer>] capabilities
+    #  An allowed set of capabilities
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
-    def cap_rights_init(*rights)
-      voidp = Fiddle::Pointer.malloc(Fiddle::SIZEOF_VOIDP)
-      varargs = rights.flat_map { [ULONG_LONG, (Symbol === _1) ? Constants.const_get(_1) : _1] }
+    def cap_rights_init(rights, *capabilities)
+      varargs = capabilities.flat_map { [ULONG_LONG, (Symbol === _1) ? Constants.const_get(_1) : _1] }
       Fiddle::Function.new(
         libc["__cap_rights_init"],
         [INT, VOIDP, VARIADIC],
         VOIDP
-      ).call(CAP_RIGHTS_VERSION, voidp, *varargs)
-      voidp
+      ).call(CAP_RIGHTS_VERSION, rights, *varargs)
     end
 
     ##

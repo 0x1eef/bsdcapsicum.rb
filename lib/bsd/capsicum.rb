@@ -55,15 +55,19 @@ module BSD::Capsicum
   #  Might raise a subclass of SystemCallError
   # @param [#to_i] io
   #  An IO object
-  # @param [Array<String>] rights
+  # @param [Array<String>] capabilities
   #  An allowed set of capabilities
   # @return [Boolean]
   #  Returns true when successful
-  def set_rights!(io, rights)
-    voidp = FFI.cap_rights_init(*rights)
-    FFI.cap_rights_limit(io.to_i, voidp).zero? ||
-    raise(SystemCallError.new("cap_rights_limit", Fiddle.last_error))
+  def set_rights!(io, capabilities)
+    rights = Fiddle::Pointer.malloc(Constants::SIZEOF_CAP_RIGHTS_T)
+    FFI.cap_rights_init(rights, *capabilities)
+    if FFI.cap_rights_limit(io.to_i, rights).zero?
+      true
+    else
+      raise SystemCallError.new("cap_rights_limit", Fiddle.last_error)
+    end
   ensure
-    voidp.call_free
+    rights.call_free
   end
 end
