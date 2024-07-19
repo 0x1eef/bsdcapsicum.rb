@@ -50,9 +50,9 @@ require "bsd/capsicum"
 
 print "[parent] In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes" : "no"), "\n"
 fork do
-  print "[subprocess] Enter capability mode: ", (BSD::Capsicum.enter! ? "ok" : "error"), "\n"
-  print "[subprocess] In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes" : "no"), "\n"
-  print "[subprocess] Exit", "\n"
+  print "[child] Enter capability mode: ", (BSD::Capsicum.enter! ? "ok" : "error"), "\n"
+  print "[child] In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes" : "no"), "\n"
+  print "[child] Exit", "\n"
   exit 42
 end
 Process.wait
@@ -60,9 +60,9 @@ print "[parent] In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes
 
 ##
 # [parent] In capability mode: no
-# [subprocess] Enter capability mode: ok
-# [subprocess] In capability mode: yes
-# [subprocess] Exit
+# [child] Enter capability mode: ok
+# [child] In capability mode: yes
+# [child] Exit
 # [parent] In capability mode: no
 ```
 
@@ -87,15 +87,15 @@ file.sync = true
 print "[parent] Obtain file descriptor (with all capabilities)", "\n"
 fork do
   BSD::Capsicum.set_rights!(file, %i[CAP_READ])
-  print "[subprocess] Reduce capabilities to read", "\n"
+  print "[child] Reduce capabilities to read", "\n"
 
   file.gets
-  print "[subprocess] Read OK", "\n"
+  print "[child] Read OK", "\n"
 
   begin
     file.write "foo"
   rescue Errno::ENOTCAPABLE => ex
-    print "[subprocess] Error: #{ex.message} (#{ex.class})", "\n"
+    print "[child] Error: #{ex.message} (#{ex.class})", "\n"
   end
 end
 Process.wait
@@ -104,9 +104,9 @@ print "[parent] Write OK", "\n"
 
 ##
 # [parent] Obtain file descriptor (with all capabilities)
-# [subprocess] Reduce capabilities to read
-# [subprocess] Read OK
-# [subprocess] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
+# [child] Reduce capabilities to read
+# [child] Read OK
+# [child] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
 # [parent] Write OK
 ```
 

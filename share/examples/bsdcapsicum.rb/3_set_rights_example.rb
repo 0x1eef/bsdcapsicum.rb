@@ -7,15 +7,15 @@ file.sync = true
 print "[parent] Obtain file descriptor (with all capabilities)", "\n"
 fork do
   BSD::Capsicum.set_rights!(file, %i[CAP_READ])
-  print "[subprocess] Reduce capabilities to read", "\n"
+  print "[child] Reduce capabilities to read", "\n"
 
   file.gets
-  print "[subprocess] Read OK", "\n"
+  print "[child] Read OK", "\n"
 
   begin
     file.write "foo"
   rescue Errno::ENOTCAPABLE => ex
-    print "[subprocess] Error: #{ex.message} (#{ex.class})", "\n"
+    print "[child] Error: #{ex.message} (#{ex.class})", "\n"
   end
 end
 Process.wait
@@ -24,7 +24,7 @@ print "[parent] Write OK", "\n"
 
 ##
 # [parent] Obtain file descriptor (with all capabilities)
-# [subprocess] Reduce capabilities to read
-# [subprocess] Read OK
-# [subprocess] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
+# [child] Reduce capabilities to read
+# [child] Read OK
+# [child] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
 # [parent] Write OK

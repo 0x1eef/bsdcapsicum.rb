@@ -3,9 +3,9 @@ require "bsd/capsicum"
 
 print "[parent] In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes" : "no"), "\n"
 fork do
-  print "[subprocess] Enter capability mode: ", (BSD::Capsicum.enter! ? "ok" : "error"), "\n"
-  print "[subprocess] In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes" : "no"), "\n"
-  print "[subprocess] Exit", "\n"
+  print "[child] Enter capability mode: ", (BSD::Capsicum.enter! ? "ok" : "error"), "\n"
+  print "[child] In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes" : "no"), "\n"
+  print "[child] Exit", "\n"
   exit 42
 end
 Process.wait
@@ -13,7 +13,7 @@ print "[parent] In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes
 
 ##
 # [parent] In capability mode: no
-# [subprocess] Enter capability mode: ok
-# [subprocess] In capability mode: yes
-# [subprocess] Exit
+# [child] Enter capability mode: ok
+# [child] In capability mode: yes
+# [child] Exit
 # [parent] In capability mode: no
