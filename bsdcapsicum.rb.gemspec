@@ -12,8 +12,17 @@ Gem::Specification.new do |spec|
   spec.summary       = "Ruby bindings for FreeBSD's capsicum(4)"
   spec.homepage      = "https://github.com/0x1eef/bsdcapsicum.rb"
   spec.licenses      = ["0BSD", "MIT"]
-  spec.files         = Dir["lib/*.rb", "lib/**/*.rb", "README.md", "LICENSE", "LICENSE.ruby-capsicum", "*.gemspec"]
+  spec.executables   = []
   spec.require_paths = ["lib"]
+  spec.files = Dir[
+    "*.gemspec",
+    "README.md",
+    "LICENSE",
+    "LICENSE.ruby-capsicum",
+    "lib/*.rb",
+    "lib/**/*.rb",
+    "share/**/*.rb",
+  ].select { File.file?(_1) }
 
   spec.add_runtime_dependency "fiddle", "~> 1.1"
   spec.add_development_dependency "bundler", "~> 2.5"
