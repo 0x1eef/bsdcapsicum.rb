@@ -41,6 +41,6 @@ class ReadMeTest < Minitest::Test
   end
 
   def readme_example(example_name)
-    File.join(__dir__, "..", "share", "ruby-capsicum", "examples", example_name)
+    File.join(__dir__, "..", "share", "examples", "bsdcapsicum.rb", example_name)
   end
 end
