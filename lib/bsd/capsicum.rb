@@ -11,7 +11,6 @@ module BSD::Capsicum
 
   ##
   # Check if we're in capability mode
-  #
   # @see https://man.freebsd.org/cgi/man.cgi?query=cap_getmode&apropos=0&sektion=2&format=html cap_getmode(2)
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
@@ -31,7 +30,6 @@ module BSD::Capsicum
 
   ##
   # Enter a process into capability mode
-  #
   # @see https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html cap_enter(2)
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
@@ -45,7 +43,6 @@ module BSD::Capsicum
 
   ##
   # Limit the capabilities of a file descriptor
-  #
   # @see https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&apropos=0&sektion=2&format=html cap_rights_limit(2)
   # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
   # @example
