@@ -24,8 +24,11 @@ __Capability mode__
 
 A process can enter into capability mode by calling
 the [BSD::Capsicum.enter!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#enter!-instance_method)
-method. After entering capability mode, the process has limited
-abilities. File descriptors acquired before entering capability
+method. After entering capability mode, the process may	only
+issue system calls operating on file descriptors or reading
+limited global system state.
+
+File descriptors acquired before entering capability
 mode remain fully capable but their capabilites can be reduced. See the
 [cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
 manual page for more details:
