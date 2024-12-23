@@ -54,7 +54,14 @@ module BSD::Capsicum
         CAP_RIGHTS_VERSION,
         rightsp,
         *capabilities.flat_map { |cap|
-          [ULONG_LONG, cap_all.include?(cap) ? const_get(cap) : cap]
+          cap = if cap_all.include?(cap)
+                  const_get(cap)
+                elsif cap_all.include?(:"CAP_#{cap.upcase}")
+                  const_get(:"CAP_#{cap.upcase}")
+                else
+                  cap
+                end
+          [ULONG_LONG, cap]
         }
       )
     end

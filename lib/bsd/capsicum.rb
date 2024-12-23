@@ -48,6 +48,8 @@ module BSD::Capsicum
   # @example
   #   # Limit standard output capabilities to read and write
   #   BSD::Capsicum.set_rights!(STDOUT, %i[CAP_READ CAP_WRITE])
+  #   # Ditto
+  #   BSD::Capsicum.set_rights!(STDOUT, %i[read write])
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
   # @param [#to_i] io

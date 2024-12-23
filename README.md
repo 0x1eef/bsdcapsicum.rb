@@ -76,7 +76,7 @@ file = File.open(path, File::CREAT | File::TRUNC | File::RDWR)
 file.sync = true
 print "[parent] Obtain file descriptor (with full capabilities)", "\n"
 fork do
-  BSD::Capsicum.set_rights!(file, %i[CAP_READ])
+  BSD::Capsicum.set_rights!(file, %i[read])
   print "[child] Reduce capabilities to read", "\n"
 
   file.gets
