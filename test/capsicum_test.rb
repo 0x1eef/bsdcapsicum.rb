@@ -12,7 +12,7 @@ class BSD::Capsicum::Test < Minitest::Test
   end
 
   def test_capability_mode_ecapmode
-    ch = xchan(:marshal)
+    ch = newch
     fork do
       BSD::Capsicum.enter!
       File.new(File::NULL)
@@ -26,7 +26,7 @@ class BSD::Capsicum::Test < Minitest::Test
   end
 
   def test_capability_mode_with_shell_command
-    ch = xchan(:marshal)
+    ch = newch
     fork do
       BSD::Capsicum.enter!
       `ls`
@@ -40,7 +40,7 @@ class BSD::Capsicum::Test < Minitest::Test
   end
 
   def test_rights_limit_on_stdout
-    ch = xchan(:marshal)
+    ch = newch
     fork do
       BSD::Capsicum.set_rights!($stdout, [])
       puts 123
@@ -49,5 +49,14 @@ class BSD::Capsicum::Test < Minitest::Test
     end
     Process.wait
     assert_equal Errno::ENOTCAPABLE, ch.recv.class
+  end
+
+  private
+
+  def newch
+    ##
+    # This is a hacky workaround where we call lock with
+    # an empty block to prevent ECAPMODE from being raised
+    xchan(:marshal).tap { _1.__send__(:lock) { } }
   end
 end
