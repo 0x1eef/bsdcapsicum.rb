@@ -47,6 +47,8 @@ module BSD::Capsicum
     #  A pointer to initialize the `cap_rights_t` structure
     # @param [Array<Symbol, Integer>] capabilities
     #  An allowed set of capabilities
+    # @raise [TypeError]
+    #  When an unknown capability is provided
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
     def cap_rights_init(rightsp, *capabilities)
@@ -54,12 +56,14 @@ module BSD::Capsicum
         CAP_RIGHTS_VERSION,
         rightsp,
         *capabilities.flat_map { |cap|
-          cap = if cap_all.include?(cap)
+          cap = if Integer === cap
+                  cap
+                elsif cap_all.include?(cap)
                   const_get(cap)
                 elsif cap_all.include?(:"CAP_#{cap.upcase}")
                   const_get(:"CAP_#{cap.upcase}")
                 else
-                  cap
+                  raise TypeError, "unknown capability: #{cap}"
                 end
           [ULONG_LONG, cap]
         }
