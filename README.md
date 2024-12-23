@@ -16,7 +16,7 @@ The following functions compliment
 but have not yet been implemented:
 
 * [ ] [cap_ioctls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_ioctls_limit&sektion=2&format=html)
-* [ ] [cap_fcntls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_fnctls_limit&sektion=2&format=html)
+* [ ] [cap_fcntls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_fcntls_limit&sektion=2&format=html)
 
 ## Examples
 
