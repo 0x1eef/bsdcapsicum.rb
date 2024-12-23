@@ -9,14 +9,14 @@ The following functions have an equvialent Ruby interface:
 
 * [x] [cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
 * [x] [cap_getmode(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_getmode&apropos=0&sektion=2&format=html)
-* [x] [cap_rights_limit(2)](https://man.freebsd.org/cgi/main.cgi?query=cap_rights_limit&sektion=2&format=html)
+* [x] [cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=html)
 
 The following functions compliment
-[cap_rights_limit(2)](https://man.freebsd.org/cgi/main.cgi?query=cap_rights_limit&sektion=2&format=html)
+[cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=html)
 but have not yet been implemented:
 
-* [ ] [cap_ioctls_limit(2)](https://man.freebsd.org/cgi/main.cgi?query=cap_ioctls_limit&sektion=2&format=html)
-* [ ] [cap_fcntls_limit(2)](https://man.freebsd.org/cgi/main.cgi?query=cap_fnctls_limit&sektion=2&format=html)
+* [ ] [cap_ioctls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_ioctls_limit&sektion=2&format=html)
+* [ ] [cap_fcntls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_fnctls_limit&sektion=2&format=html)
 
 ## Examples
 
@@ -64,7 +64,7 @@ then limits the capabilities of the file descriptor
 in a child process to allow only read operations. See the
 [rights(4)](https://man.freebsd.org/cgi/man.cgi?query=rights&apropos=0&sektion=4&format=html)
 and
-[cap_rights_limit(2)](https://man.freebsd.org/cgi/main.cgi?query=cap_rights_limit&sektion=2&format=htmlman)
+[cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=htmlman)
 manual pages for more information:
 
 ``` ruby
