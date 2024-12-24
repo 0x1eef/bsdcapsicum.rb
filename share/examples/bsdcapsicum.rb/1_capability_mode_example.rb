@@ -2,8 +2,8 @@ require "bundler/setup"
 require "bsd/capsicum"
 
 print "In capability mode: ", (BSD::Capsicum.capability_mode? ? "yes" : "no"), "\n"
-print "Enter capability mode: ok", "\n"
 BSD::Capsicum.enter_capability_mode!
+print "Enter capability mode: ok", "\n"
 print "In capability mode: ", (BSD::Capsicum.capability_mode? ? "yes" : "no"), "\n"
 
 begin

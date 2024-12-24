@@ -10,7 +10,8 @@ via
 __"Capability mode"__
 
 A process can enter into capability mode by calling
-the [BSD::Capsicum.enter!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#enter!-instance_method)
+the
+[BSD::Capsicum.enter_capability_mode!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#enter!-instance_method)
 method. After entering capability mode, the process may	only
 issue system calls operating on file descriptors or reading
 limited global system state.
@@ -25,8 +26,8 @@ manual page for more details:
 require "bsd/capsicum"
 
 print "In capability mode: ", (BSD::Capsicum.capability_mode? ? "yes" : "no"), "\n"
-print "Enter capability mode: ok", "\n"
 BSD::Capsicum.enter_capability_mode!
+print "Enter capability mode: ok", "\n"
 print "In capability mode: ", (BSD::Capsicum.capability_mode? ? "yes" : "no"), "\n"
 
 begin
