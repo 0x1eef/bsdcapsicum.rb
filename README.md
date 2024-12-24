@@ -7,7 +7,7 @@ via
 
 ## Examples
 
-__Capability mode__
+__"Capability mode"__
 
 A process can enter into capability mode by calling
 the [BSD::Capsicum.enter!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#enter!-instance_method)
@@ -41,10 +41,10 @@ end
 # Error: Not permitted in capability mode @ rb_sysopen - /dev/null (Errno::ECAPMODE)
 ```
 
-__Rights__
+__File descriptor__
 
 The
-[BSD::Capsicum.set_rights!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#set_rights!-instance_method)
+[BSD::Capsicum.limit!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#limit!-instance_method)
 method can reduce the capabilities of a file descriptor. The following
 example obtains a file descriptor in a parent process (with full capabilities),
 then limits the capabilities of the file descriptor
@@ -63,7 +63,7 @@ file = File.open(path, File::CREAT | File::TRUNC | File::RDWR)
 file.sync = true
 print "[parent] Obtain file descriptor (with full capabilities)", "\n"
 fork do
-  BSD::Capsicum.set_rights!(file, %i[read])
+  BSD::Capsicum.limit!(file, allow: %i[read])
   print "[child] Reduce capabilities to read", "\n"
 
   file.gets

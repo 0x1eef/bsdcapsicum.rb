@@ -46,10 +46,10 @@ module BSD::Capsicum
   # @see https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&apropos=0&sektion=2&format=html cap_rights_limit(2)
   # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
   # @example
-  #   # Limit standard output capabilities to read and write
-  #   BSD::Capsicum.set_rights!(STDOUT, %i[CAP_READ CAP_WRITE])
+  #   # Limit standard output operations to read and write
+  #   BSD::Capsicum.limit!(STDOUT, allow: %i[CAP_READ CAP_WRITE])
   #   # Ditto
-  #   BSD::Capsicum.set_rights!(STDOUT, %i[read write])
+  #   BSD::Capsicum.limit!(STDOUT, allow: %i[read write])
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
   # @param [#to_i] io
@@ -58,9 +58,9 @@ module BSD::Capsicum
   #  An allowed set of capabilities
   # @return [Boolean]
   #  Returns true when successful
-  def set_rights!(io, capabilities)
+  def limit!(io, allow:)
     rightsp = Fiddle::Pointer.malloc(Constants::SIZEOF_CAP_RIGHTS_T)
-    FFI.cap_rights_init(rightsp, *capabilities)
+    FFI.cap_rights_init(rightsp, *allow)
     FFI.cap_rights_limit(io.to_i, rightsp).zero? ||
     raise(SystemCallError.new("cap_rights_limit", Fiddle.last_error))
   ensure

@@ -42,7 +42,7 @@ class BSD::Capsicum::Test < Minitest::Test
   def test_rights_limit_on_stdout
     ch = xchan(:marshal, lock: :null)
     fork do
-      BSD::Capsicum.set_rights!($stdout, [])
+      BSD::Capsicum.limit!($stdout, allow: %i[read])
       puts 123
     rescue Errno::ENOTCAPABLE => ex
       ch.send(ex)
