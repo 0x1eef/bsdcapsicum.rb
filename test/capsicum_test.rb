@@ -12,7 +12,7 @@ class BSD::Capsicum::Test < Minitest::Test
   end
 
   def test_capability_mode_ecapmode
-    ch = xchan(:marshal, lock: Chan::NullLock)
+    ch = xchan(:marshal, lock: :null)
     fork do
       BSD::Capsicum.enter!
       File.new(File::NULL)
@@ -26,7 +26,7 @@ class BSD::Capsicum::Test < Minitest::Test
   end
 
   def test_capability_mode_with_shell_command
-    ch = xchan(:marshal, lock: Chan::NullLock)
+    ch = xchan(:marshal, lock: :null)
     fork do
       BSD::Capsicum.enter!
       `ls`
@@ -40,7 +40,7 @@ class BSD::Capsicum::Test < Minitest::Test
   end
 
   def test_rights_limit_on_stdout
-    ch = xchan(:marshal, lock: Chan::NullLock)
+    ch = xchan(:marshal, lock: :null)
     fork do
       BSD::Capsicum.set_rights!($stdout, [])
       puts 123
