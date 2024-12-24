@@ -54,7 +54,7 @@ module BSD::Capsicum
   #  Might raise a subclass of SystemCallError
   # @param [#to_i] io
   #  An IO object
-  # @param [Array<Symbol, Integer>] capabilities
+  # @param [Array<Symbol, Integer>] allow
   #  An allowed set of capabilities
   # @return [Boolean]
   #  Returns true when successful
