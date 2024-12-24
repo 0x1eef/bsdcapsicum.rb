@@ -24,9 +24,10 @@ manual page for more details:
 #!/usr/bin/env ruby
 require "bsd/capsicum"
 
-print "In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes" : "no"), "\n"
-print "Enter capability mode: ", (BSD::Capsicum.enter! ? "ok" : "error"), "\n"
-print "In capability mode: ", (BSD::Capsicum.in_capability_mode? ? "yes" : "no"), "\n"
+print "In capability mode: ", (BSD::Capsicum.capability_mode? ? "yes" : "no"), "\n"
+print "Enter capability mode: ok", "\n"
+BSD::Capsicum.enter_capability_mode!
+print "In capability mode: ", (BSD::Capsicum.capability_mode? ? "yes" : "no"), "\n"
 
 begin
   File.new(File::NULL)
