@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 require "bsd/capsicum"
+require "tmpdir"
 
-path = File.join(Dir.home, "bsdcapsicum.txt")
+path = File.join(Dir.tmpdir, "bsdcapsicum.txt")
 file = File.open(path, File::CREAT | File::TRUNC | File::RDWR)
 file.sync = true
 print "[parent] Obtain file descriptor (with full capabilities)", "\n"
@@ -26,5 +27,5 @@ print "[parent] Write OK", "\n"
 # [parent] Obtain file descriptor (with full capabilities)
 # [child] Reduce capabilities to read
 # [child] Read OK
-# [child] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
+# [child] Error: Capabilities insufficient @ io_write - /tmp/bsdcapsicum.txt (Errno::ENOTCAPABLE)
 # [parent] Write OK

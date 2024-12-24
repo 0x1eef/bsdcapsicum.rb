@@ -31,7 +31,7 @@ class ReadMeTest < Minitest::Test
      "[parent] Write OK\n"
     ].each { assert_match((Regexp === _1) ? _1 : /#{Regexp.escape(_1)}/, r.stdout) }
   ensure
-    FileUtils.rm File.join(Dir.home, "bsdcapsicum.txt")
+    FileUtils.rm File.join(Dir.tmpdir, "bsdcapsicum.txt")
   end
 
   private
