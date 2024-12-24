@@ -1,22 +1,9 @@
 ## About
 
 bsdcapsicum.rb provides Ruby bindings for
-[capsicum(4)](https://man.freebsd.org/cgi/man.cgi?query=capsicum&apropos=0&sektion=4&format=html).
-
-## Status
-
-The following functions have an equvialent Ruby interface:
-
-* [x] [cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
-* [x] [cap_getmode(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_getmode&apropos=0&sektion=2&format=html)
-* [x] [cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=html)
-
-The following functions compliment
-[cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=html)
-but have not yet been implemented:
-
-* [ ] [cap_ioctls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_ioctls_limit&sektion=2&format=html)
-* [ ] [cap_fcntls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_fcntls_limit&sektion=2&format=html)
+[capsicum(4)](https://man.freebsd.org/cgi/man.cgi?query=capsicum&apropos=0&sektion=4&format=html)
+via
+[fiddle](https://github.com/ruby/fiddle#readme).
 
 ## Examples
 
@@ -99,6 +86,21 @@ print "[parent] Write OK", "\n"
 # [child] Error: Capabilities insufficient @ io_write - /home/user/bsdcapsicum.txt (Errno::ENOTCAPABLE)
 # [parent] Write OK
 ```
+
+## Status
+
+The following functions have an equvialent Ruby interface:
+
+* [x] [cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
+* [x] [cap_getmode(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_getmode&apropos=0&sektion=2&format=html)
+* [x] [cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=html)
+
+The following functions compliment
+[cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=html)
+but have not yet been implemented:
+
+* [ ] [cap_ioctls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_ioctls_limit&sektion=2&format=html)
+* [ ] [cap_fcntls_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_fcntls_limit&sektion=2&format=html)
 
 ## Documentation
 
