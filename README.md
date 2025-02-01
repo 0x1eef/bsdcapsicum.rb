@@ -102,16 +102,15 @@ bsdcapsicum.rb is available via rubygems.org:
 
 ## Sources
 
-* [GitHub](https://github.com/0x1eef/bsdcapsicum.rb#readme)
-* [GitLab](https://gitlab.com/0x1eef/bsdcapsicum.rb#about)
+* [github.com/@0x1eef](https://github.com/0x1eef/bsdcapsicum.rb#readme)
+* [gitlab.com/@0x1eef](https://gitlab.com/0x1eef/bsdcapsicum.rb#about)
 * [git.HardenedBSD.org/@0x1eef](https://git.hardenedbsd.org/0x1eef/bsdcapsicum.rb#about)
 * [brew.bsd.cafe/@0x1eef](https://brew.bsd.cafe/0x1eef/bsdcapsicum.rb)
 
 ## See also
 
 * [Freaky/ruby-capsicum](https://github.com/Freaky/ruby-capsicum) <br>
-  bsdcapsicum.rb is a fork of this project. It was a huge help both
-  in terms of code and documentation.
+  bsdcapsicum.rb is a fork of this project.
 
 ## Status
 
