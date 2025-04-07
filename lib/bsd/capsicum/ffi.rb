@@ -71,6 +71,8 @@ module BSD::Capsicum
       )
     end
 
+    ##
+    # @api pricate
     module Private
       extend self
       ##
