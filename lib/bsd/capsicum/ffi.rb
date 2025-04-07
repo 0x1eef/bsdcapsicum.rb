@@ -47,7 +47,7 @@ module BSD::Capsicum
     #  An allowed set of capabilities
     # @return [Integer]
     def cap_fcntls_limit(fd, capabilities)
-      cap = cap_parse(capabilities, cap_fcntls)
+      cap = Private.cap_lookup(capabilities, Private.cap_fcntls)
       self["cap_fcntls_limit"].call(fd, cap.inject(&:|))
     end
 
@@ -63,7 +63,7 @@ module BSD::Capsicum
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
     def cap_rights_init(rightsp, *capabilities)
-      cap = cap_parse(capabilities, cap_all)
+      cap = Private.cap_lookup(capabilities, Private.cap_all)
       self["__cap_rights_init"].call(
         CAP_RIGHTS_VERSION,
         rightsp,
@@ -71,40 +71,43 @@ module BSD::Capsicum
       )
     end
 
-    ##
-    # @api private
-    # @return [Array<Integer>]
-    #  Returns a list of capabilities (as integers)
-    def cap_parse(capabilities, allowed)
-      capabilities.flat_map do |cap|
-        if Integer === cap
-          cap
-        elsif allowed.include?(cap)
-          const_get(cap)
-        elsif allowed.include?(:"CAP_#{cap.upcase}")
-          const_get(:"CAP_#{cap.upcase}")
-        elsif allowed.include?(:"CAP_FCNTL_#{cap.upcase}")
-          const_get(:"CAP_FCNTL_#{cap.upcase}")
-        else
-          raise TypeError, "unknown capability: #{cap}"
+    module Private
+      extend self
+      ##
+      # @api private
+      # @return [Array<Integer>]
+      #  Returns a list of capabilities (as integers)
+      def cap_lookup(capabilities, allowed)
+        capabilities.flat_map do |cap|
+          if Integer === cap
+            cap
+          elsif allowed.include?(cap)
+            FFI.const_get(cap)
+          elsif allowed.include?(:"CAP_#{cap.upcase}")
+            FFI.const_get(:"CAP_#{cap.upcase}")
+          elsif allowed.include?(:"CAP_FCNTL_#{cap.upcase}")
+            FFI.const_get(:"CAP_FCNTL_#{cap.upcase}")
+          else
+            raise TypeError, "unknown capability: #{cap}"
+          end
         end
       end
-    end
 
-    ##
-    # @api private
-    # @return [Array<Symbol>]
-    #  Returns all known capabilities
-    def cap_all
-      @cap_all ||= Constants.constants.select { _1.to_s.start_with?("CAP_") }
-    end
+      ##
+      # @api private
+      # @return [Array<Symbol>]
+      #  Returns all known capabilities
+      def cap_all
+        @cap_all ||= Constants.constants.select { _1.to_s.start_with?("CAP_") }
+      end
 
-    ##
-    # @api private
-    # @return [Array<Symbol>]
-    #  Returns all known fcntl capabilities
-    def cap_fcntls
-      @cap_fcntls ||= Constants.constants.select { _1.to_s.start_with?("CAP_FCNTL_") }
+      ##
+      # @api private
+      # @return [Array<Symbol>]
+      #  Returns all known fcntl capabilities
+      def cap_fcntls
+        @cap_fcntls ||= Constants.constants.select { _1.to_s.start_with?("CAP_FCNTL_") }
+      end
     end
   end
   private_constant :FFI
