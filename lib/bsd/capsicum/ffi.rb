@@ -11,6 +11,7 @@ module BSD::Capsicum
     extern "int cap_getmode(u_int*)"
     extern "int cap_enter(void)"
     extern "int cap_rights_limit(int, const cap_rights_t*)"
+    extern "int cap_fcntls_limit(int, uint32_t)"
     extern "cap_rights_t* __cap_rights_init(int version, cap_rights_t*, ...)"
 
     module_function
@@ -40,6 +41,17 @@ module BSD::Capsicum
     end
 
     ##
+    # Provides a Ruby interface for cap_fcntls_limit(2)
+    # @param [Integer] fd
+    # @param [Array<Integer>] capabilities
+    #  An allowed set of capabilities
+    # @return [Integer]
+    def cap_fcntls_limit(fd, capabilities)
+      cap = cap_parse(capabilities, cap_fcntls)
+      self["cap_fcntls_limit"].call(fd, cap.inject(&:|))
+    end
+
+    ##
     # Provides a Ruby interface for cap_rights_init(2)
     # @see BSD::Capsicum::Constants See Constants for a full list of capabilities
     # @param [Fiddle::Pointer] rightsp
@@ -51,22 +63,32 @@ module BSD::Capsicum
     # @return [Fiddle::Pointer]
     #  Returns a pointer to the structure `cap_rights_t`
     def cap_rights_init(rightsp, *capabilities)
+      cap = cap_parse(capabilities, cap_all)
       self["__cap_rights_init"].call(
         CAP_RIGHTS_VERSION,
         rightsp,
-        *capabilities.flat_map { |cap|
-          cap = if Integer === cap
-                  cap
-                elsif cap_all.include?(cap)
-                  const_get(cap)
-                elsif cap_all.include?(:"CAP_#{cap.upcase}")
-                  const_get(:"CAP_#{cap.upcase}")
-                else
-                  raise TypeError, "unknown capability: #{cap}"
-                end
-          [ULONG_LONG, cap]
-        }
+        *cap.flat_map { [ULONG_LONG, _1] }
       )
+    end
+
+    ##
+    # @api private
+    # @return [Array<Integer>]
+    #  Returns a list of capabilities (as integers)
+    def cap_parse(capabilities, allowed)
+      capabilities.flat_map do |cap|
+        if Integer === cap
+          cap
+        elsif allowed.include?(cap)
+          const_get(cap)
+        elsif allowed.include?(:"CAP_#{cap.upcase}")
+          const_get(:"CAP_#{cap.upcase}")
+        elsif allowed.include?(:"CAP_FCNTL_#{cap.upcase}")
+          const_get(:"CAP_FCNTL_#{cap.upcase}")
+        else
+          raise TypeError, "unknown capability: #{cap}"
+        end
+      end
     end
 
     ##
@@ -75,6 +97,14 @@ module BSD::Capsicum
     #  Returns all known capabilities
     def cap_all
       @cap_all ||= Constants.constants.select { _1.to_s.start_with?("CAP_") }
+    end
+
+    ##
+    # @api private
+    # @return [Array<Symbol>]
+    #  Returns all known fcntl capabilities
+    def cap_fcntls
+      @cap_fcntls ||= Constants.constants.select { _1.to_s.start_with?("CAP_FCNTL_") }
     end
   end
   private_constant :FFI

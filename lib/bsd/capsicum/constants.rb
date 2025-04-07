@@ -72,6 +72,14 @@ module BSD::Capsicum
     # @endgroup
 
     ##
+    # @group Fcntl capabilities
+    CAP_FCNTL_GETFL    = FFI::CAP_FCNTL_GETFL
+    CAP_FCNTL_SETFL    = FFI::CAP_FCNTL_SETFL
+    CAP_FCNTL_GETOWN   = FFI::CAP_FCNTL_GETOWN
+    CAP_FCNTL_SETOWN   = FFI::CAP_FCNTL_SETOWN
+    # @endgroup
+
+    ##
     # @group Uncategorized capabilities
     CAP_CHFLAGSAT      = FFI::CAP_CHFLAGSAT
     CAP_EVENT          = FFI::CAP_EVENT

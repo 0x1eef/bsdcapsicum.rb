@@ -34,6 +34,19 @@ class ReadMeTest < Minitest::Test
     FileUtils.rm File.join(Dir.tmpdir, "bsdcapsicum.txt")
   end
 
+  def test_4_fcntl_example
+    r = ruby(readme_example("4_fcntl_example.rb"))
+    ["Obtain file descriptor (with full capabilities)",
+     "Reduce capabilities to fcntl",
+     "Reduces fcntl capabilties to GETFL",
+     "Get fcntl flags: OK",
+     "Try to set fcntls flag ...",
+     "Error: Capabilities insufficient @ finish_narg - /tmp/bsdcapsicum.txt (Errno::ENOTCAPABLE)"
+    ].each { assert_match((Regexp === _1) ? _1 : /#{Regexp.escape(_1)}/, r.stdout) }
+  ensure
+    FileUtils.rm File.join(Dir.tmpdir, "bsdcapsicum.txt")
+  end
+
   private
 
   def ruby(*argv)
