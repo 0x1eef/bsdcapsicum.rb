@@ -5,7 +5,6 @@ module BSD::Capsicum
     require "fiddle"
     require "fiddle/import"
     include Fiddle::Types
-    include Constants
     extend Fiddle::Importer
     dlload Dir["/lib/libc.*"].first
 

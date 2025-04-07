@@ -7,18 +7,23 @@ via
 
 ## Examples
 
-__Capability mode__
+### BSD::Capsicum
+
+#### Capability mode
 
 A process can enter into capability mode by calling
 the
 [BSD::Capsicum.enter_capability_mode!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#enter!-instance_method)
-method. After entering capability mode, the process may	only
-issue system calls operating on file descriptors or reading
-limited global system state. File descriptors acquired before
-entering capability mode remain fully capable but their capabilites
-can be reduced. See the
+method. After entering capability mode, a process may only
+issue system calls operating on file descriptors that have already
+been acquired or by reading limited global system state.
+File descriptors acquired before entering capability mode remain
+fully capable but their capabilities can be reduced by calling
+the
+[BSD::Capsicum.limit!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#limit!-instance_method)
+method. See the
 [cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
-manual page for more details:
+manual page or the rest of the README for more details:
 
 ```ruby
 #!/usr/bin/env ruby
@@ -42,13 +47,16 @@ end
 # Error: Not permitted in capability mode @ rb_sysopen - /dev/null (Errno::ECAPMODE)
 ```
 
-__File descriptor__
+#### File descriptors
 
 The
 [BSD::Capsicum.limit!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum.html#limit!-instance_method)
-method can reduce the capabilities of a file descriptor. The following
-example obtains a file descriptor in a parent process (with full capabilities),
-then limits the capabilities of the file descriptor
+method can reduce the capabilities of a file descriptor by limiting what
+system calls it can be used with. In that sense it is roughly similar to OpenBSD's
+pledge but it operates on the file descriptor level rather than the process
+level.
+The following example obtains a file descriptor in a parent process (with
+full capabilities), then limits the capabilities of the file descriptor
 in a child process to allow only read operations. See the
 [rights(4)](https://man.freebsd.org/cgi/man.cgi?query=rights&apropos=0&sektion=4&format=html)
 and
@@ -113,13 +121,13 @@ bsdcapsicum.rb is available via rubygems.org:
 
 ## Status
 
-The following functions have an equvialent Ruby interface:
+The following functions have an equivalent Ruby interface:
 
 * [x] [cap_enter(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_enter&apropos=0&sektion=2&format=html)
 * [x] [cap_getmode(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_getmode&apropos=0&sektion=2&format=html)
 * [x] [cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=html)
 
-The following functions compliment
+The following functions complement
 [cap_rights_limit(2)](https://man.freebsd.org/cgi/man.cgi?query=cap_rights_limit&sektion=2&format=html)
 but have not yet been implemented:
 

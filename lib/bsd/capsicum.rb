@@ -4,9 +4,10 @@ module BSD
 end unless defined?(BSD)
 
 module BSD::Capsicum
+  require "bsdcapsicum.rb.so"
   require_relative "capsicum/version"
-  require_relative "capsicum/constants"
   require_relative "capsicum/ffi"
+  require_relative "capsicum/constants"
   extend self
 
   ##
