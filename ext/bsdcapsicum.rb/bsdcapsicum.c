@@ -64,6 +64,13 @@ Init_bsdcapsicum(void)
     rb_define_const(rb_mFFI, "CAP_PDWAIT", LONG2NUM(CAP_PDWAIT));
     // @endgroup
 
+    // @group Fcntl
+    rb_define_const(rb_mFFI, "CAP_FCNTL_GETFL", LONG2NUM(CAP_FCNTL_GETFL));
+    rb_define_const(rb_mFFI, "CAP_FCNTL_SETFL", LONG2NUM(CAP_FCNTL_SETFL));
+    rb_define_const(rb_mFFI, "CAP_FCNTL_GETOWN", LONG2NUM(CAP_FCNTL_GETOWN));
+    rb_define_const(rb_mFFI, "CAP_FCNTL_SETOWN", LONG2NUM(CAP_FCNTL_SETOWN));
+    // @endgroup
+
     // @group Misc
     rb_define_const(rb_mFFI, "CAP_CHFLAGSAT", LONG2NUM(CAP_CHFLAGSAT));
     rb_define_const(rb_mFFI, "CAP_EVENT", LONG2NUM(CAP_EVENT));
