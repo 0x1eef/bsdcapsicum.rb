@@ -30,7 +30,7 @@ manual page or the rest of the README for more details:
 require "bsd/capsicum"
 
 print "In capability mode: ", (BSD::Capsicum.capability_mode? ? "yes" : "no"), "\n"
-BSD::Capsicum.enter_capability_mode!
+BSD::Capsicum.enter_cap_mode!
 print "Enter capability mode: ok", "\n"
 print "In capability mode: ", (BSD::Capsicum.capability_mode? ? "yes" : "no"), "\n"
 

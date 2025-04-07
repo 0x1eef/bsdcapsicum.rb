@@ -41,6 +41,7 @@ module BSD::Capsicum
     raise(SystemCallError.new("cap_enter", Fiddle.last_error))
   end
   alias_method :enter_capability_mode!, :enter!
+  alias_method :enter_cap_mode!, :enter
 
   ##
   # Limit the capabilities of a file descriptor
