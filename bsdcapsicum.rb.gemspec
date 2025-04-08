@@ -22,6 +22,8 @@ Gem::Specification.new do |spec|
     "lib/*.rb",
     "lib/**/*.rb",
     "share/**/*.rb",
+    "ext/**/*.rb",
+    "ext/**/*.c",
   ].select { File.file?(_1) }
 
   spec.add_runtime_dependency "fiddle", "~> 1.1"
