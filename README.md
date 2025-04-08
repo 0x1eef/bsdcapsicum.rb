@@ -3,12 +3,17 @@
 bsdcapsicum.rb provides Ruby bindings for FreeBSD's
 [capsicum(4)](https://man.freebsd.org/cgi/man.cgi?query=capsicum&apropos=0&sektion=4&format=html)
 via
-[fiddle](https://github.com/ruby/fiddle#readme). The capsicum framework
-provides a sandbox model where a process can enter into a mode of operation
-where it is exclusively capable of performing system calls on file descriptors
-that have been acquired before entering capability mode.  The file descriptors
-can also be limited to a subset of system calls, and a file descriptor could
-reference a file, a socket, or other IO objects.
+[fiddle](https://github.com/ruby/fiddle#readme).
+
+The capsicum framework provides a sandbox model where a process can enter
+into a mode of operation where it is exclusively capable of performing system
+calls on file descriptors that have been acquired before entering capability
+mode.
+
+The file descriptors can also be limited to a subset of system calls, and
+a file descriptor could reference a file, a socket, or other IO objects.
+Both of these strategies can be used together to limit the capabilities
+of a process and / or to limit the capabilities of file descriptors.
 
 ## Examples
 
@@ -126,7 +131,7 @@ file.permit!(:fcntl)
 print "Reduce capabilities to fcntl", "\n"
 
 file.permit!(:GETFL, scope: :fcntl)
-print "Reduces fcntl capabilties to GETFL", "\n"
+print "Reduces fcntl capabilities to GETFL", "\n"
 
 flags = file.fcntl(Fcntl::F_GETFL)
 print "Get fcntl flags: OK", "\n"
@@ -141,7 +146,7 @@ end
 ##
 # Obtain file descriptor (with full capabilities)
 # Reduce capabilities to fcntl
-# Reduce fcntl capabilties to fcntl_getfl
+# Reduce fcntl capabilities to fcntl_getfl
 # Get fcntl flags: OK
 # Try to set fcntls flag ...
 # Error: Capabilities insufficient @ finish_narg - /tmp/bsdcapsicum.txt (Errno::ENOTCAPABLE)
