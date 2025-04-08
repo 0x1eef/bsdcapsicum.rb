@@ -111,10 +111,10 @@ print "[parent] Write OK", "\n"
 
 The
 [BSD::Capsicum::IO#permit!](http://0x1eef.github.io/x/bsdcapsicum.rb/BSD/Capsicum/IO.html#permit!-instance_method)
-method can limit the fcntls capabilities of a file descriptor by limiting what
-fcntls operations it can be used with. This method requires the fcntl capability to already
-be present, and it can limit fnctls operations to a smaller subset of operations.
-The following example limits the fcntls capabilities of a file descriptor to allow
+method can limit the fcntl capabilities of a file descriptor by limiting what
+fcntl operations it can be used with. This method requires the fcntl capability to already
+be present, and it can limit fcntl operations to a smaller subset of operations.
+The following example limits the fcntl capabilities of a file descriptor to allow
 only the `GETFL` operation, and prevents the `SETFL` operation:
 
 ```ruby
