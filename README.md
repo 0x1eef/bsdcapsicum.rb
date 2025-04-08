@@ -13,7 +13,7 @@ mode.
 The file descriptors can also be limited to a subset of system calls, and
 a file descriptor could reference a file, a socket, or other IO objects. 
 Both of these strategies can be used together to limit the capabilities
-of a process and to limit the capabilities of file descriptors.
+of a process and / or to limit the capabilities of file descriptors.
 
 ## Examples
 
