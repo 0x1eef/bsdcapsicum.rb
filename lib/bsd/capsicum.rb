@@ -69,10 +69,11 @@ module BSD::Capsicum
       FFI.cap_rights_init(rightsp, *caps)
       FFI.cap_rights_limit(io.to_i, rightsp).zero? ||
         raise(SystemCallError.new("cap_rights_permit", Fiddle.last_error))
-      rightsp.call_free
     else
       raise ArgumentError, "invalid scope: #{scope}"
     end
+  ensure
+    rightsp&.call_free
   end
 
   ##
