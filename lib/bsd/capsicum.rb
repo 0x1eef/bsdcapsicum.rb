@@ -54,21 +54,23 @@ module BSD::Capsicum
   #   BSD::Capsicum.permit!(STDOUT, :read, :write)
   # @raise [SystemCallError]
   #  Might raise a subclass of SystemCallError
-  # @param [#to_i] io
+  # @param [#fileno,#to_i] io
   #  An IO object
   # @param [Array<Symbol, Integer>] caps
   #  An allowed set of capabilities
+  # @param [Symbol] scope
+  #  The scope of the permit, either `nil` or `:fcntl`
   # @return [Boolean]
   #  Returns true when successful
   def permit!(io, *caps, scope: :rights)
     if scope == :fcntl
       FFI.cap_fcntls_limit(io.to_i, caps).zero? ||
-        raise(SystemCallError.new("cap_fcntls_permit", Fiddle.last_error))
+        raise(SystemCallError.new("cap_fcntls_limit", Fiddle.last_error))
     elsif scope == :rights
       rightsp = Fiddle::Pointer.malloc(Constants::SIZEOF_CAP_RIGHTS_T)
       FFI.cap_rights_init(rightsp, *caps)
       FFI.cap_rights_limit(io.to_i, rightsp).zero? ||
-        raise(SystemCallError.new("cap_rights_permit", Fiddle.last_error))
+        raise(SystemCallError.new("cap_rights_limit", Fiddle.last_error))
     else
       raise ArgumentError, "invalid scope: #{scope}"
     end
