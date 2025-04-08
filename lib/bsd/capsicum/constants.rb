@@ -7,7 +7,7 @@ module BSD::Capsicum
   # documentation can be found in the
   # [rights(4)](https://man.freebsd.org/cgi/man.cgi?query=rights&apropos=0&sektion=4&format=html)
   # man page, and they can be used with methods
-  # such as {BSD::Capsicum#limit! BSD::Capsicum#limit!}
+  # such as {BSD::Capsicum#permit! BSD::Capsicum#permit!}
   module Constants
     CAP_RIGHTS_VERSION = 0x0
 
