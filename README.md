@@ -8,7 +8,9 @@ via
 The capsicum framework provides a sandbox model where a process can enter
 into a mode of operation where it is exclusively capable of performing system
 calls on file descriptors that have been acquired before entering capability
-mode. The file descriptors can also be limited to a subset of system calls, and
+mode.
+
+The file descriptors can also be limited to a subset of system calls, and
 a file descriptor could reference a file, a socket, or other IO objects.
 
 ## Examples
