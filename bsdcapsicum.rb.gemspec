@@ -33,5 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "standard", "~> 1.38"
   spec.add_development_dependency "test-cmd.rb", "~> 0.12"
-  spec.add_development_dependency "xchan.rb", "~> 0.17"
+  spec.add_development_dependency "xchan.rb", "~> 0.19"
 end
